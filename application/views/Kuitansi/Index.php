@@ -2,7 +2,7 @@
 <div class="card" style="border-top: 5px solid #4E73DF;">
   <div class="card-body">
     <h4 class="card-title">Kuitansi</h4>
-    <div class="box-right" style="position: absolute; margin-left: 1030px; background-color: #f7f7f7; padding: 40px 20px 34px 20px; margin-top: -20px; border: 1px solid black; border-radius: 5px">
+    <div class="box-right" style="position: absolute; margin-left: 1030px; background-color: #f7f7f7; padding: 40px 20px 34px 20px; margin-top: -25px; border: 1px solid black; border-radius: 5px">
         <h5 class="text-center font-weight-bold">Cetak Kuitansi</h5>
     </div>
     <form action="" method="POST">
@@ -33,7 +33,7 @@
     </div>
 </div>
 </div>
-<a href="#" class="btn btn-primary mb-3" style="width: 80px; margin-left: 840px">Cetak</a>
+<a href="javascript:void(0);" class="btn btn-primary mb-3" style="width: 80px; margin-left: 840px">Cetak</a>
     </form>
   </div>
 </div>

@@ -5,8 +5,12 @@ $(document).ready(function () {
 	$('.pj').select2({
 		placeholder: "Pilih Penanggung Jawab",
 		allowClear: false,
-		theme: 'bootstrap4',
-		containerCssClass: 'custom-sm'
+		theme: 'bootstrap4'
+	});
+	$('.role').select2({
+		placeholder: "Pilih Role",
+		allowClear: false,
+		theme: 'bootstrap4'
 	});
 
 	// Date Picker
