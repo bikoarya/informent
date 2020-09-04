@@ -5,12 +5,16 @@ class Akun extends CI_Controller {
 
 	public function index()
     {
+		if ($this->session->userdata('nama_lengkap') != null) {
 		$data['role'] = $this->model->get('t_role'); 
         $data['title'] = 'Informent | Akun';
 		$this->load->view('Templates/Header', $data);
 		$this->load->view('Templates/Menu');
 		$this->load->view('Pengaturan/Akun');
 		$this->load->view('Templates/Footer');
+		} else {
+			redirect('Notfound');
+		}
 	}
 
 	public function insert() 

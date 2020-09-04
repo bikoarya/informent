@@ -98,7 +98,7 @@
         <div class="form-group">
         <label for="newPassword">Password</label>
         <input type="hidden" class="form-control" name="oldPassword" id="oldPassword">
-        <input type="password" class="form-control" name="newPassword" id="newPassword" placeholder="Masukkan Password Baru">
+        <input type="password" class="form-control" name="newPassword" id="newPassword" autocomplete="off" placeholder="Masukkan Password Baru">
         <p class="text-danger mt-1">* Kosongkan password jika tidak ingin mengubah</p>
         </div>
         <div class="form-group">
@@ -107,7 +107,7 @@
         </div>
         <div class="form-group">
         <label for="editRole">Role</label>
- 				<select class="form-control role" name="editRole" id="editRole" style="width: 100%;">
+ 				<select class="form-control role" name="editRole" id="editRole" autocomplete="off" style="width: 100%;">
  					<option value=""></option>
  						<?php foreach ($role as $lev) : ?>
  							<option value="<?= $lev['id_role']; ?>"><?= $lev['nama_role']; ?></option>

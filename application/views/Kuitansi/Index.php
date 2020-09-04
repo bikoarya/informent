@@ -33,7 +33,7 @@
     </div>
 </div>
 </div>
-<a href="javascript:void(0);" class="btn btn-primary mb-3" style="width: 80px; margin-left: 840px">Cetak</a>
+<a href="<?= site_url('Kuitansi/cetak'); ?>" class="btn btn-primary mb-3" style="width: 80px; margin-left: 840px">Cetak</a>
     </form>
   </div>
 </div>

@@ -42,9 +42,9 @@ $("#simpanRole").click(function () {
 					namaRole: namaRole
 				},
 				success: function (data) {
+					$("#namaRole").val("");
 					$("#showRole").html(data);
 					$("#addRole").modal("hide");
-					$("#namaRole").val("");
 
 					Swal.fire(
 						'Berhasil!',
@@ -431,5 +431,228 @@ $("#showAkun").on('click', '.hapusAkun', function () {
 			});
 		}
 	});
+});
 
+// Tambah Rekening
+$("#showRekening").load(site_url + "Master/Rekening/viewRekening");
+$("#simpanRekening").click(function () {
+	$("#formRekening").validate({
+		rules: {
+			namaBank: {
+				required: true
+			},
+			norek: {
+				required: true,
+				number: true,
+				minlength: 10,
+				maxlength: 16
+			},
+			atasNama: {
+				required: true
+			}
+		},
+		messages: {
+			namaBank: {
+				required: "Masukkan nama bank!"
+			},
+			norek: {
+				required: "Masukkan nomor rekening!",
+				number: "Harap masukkan angka!",
+				minlength: "Masukkan minimal 10 digit",
+				maxlength: "Masukkan maksimal 16 digit"
+			},
+			atasNama: {
+				required: "Masukkan nama!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let namaBank = $("#namaBank").val();
+			let norek = $("#norek").val();
+			let atasNama = $("#atasNama").val();
+			$.ajax({
+				url: site_url + "Master/Rekening/insert",
+				type: "POST",
+				data: {
+					namaBank: namaBank,
+					norek: norek,
+					atasNama: atasNama
+				},
+				success: function (data) {
+					$("#showRekening").html(data);
+					$("#addRekening").modal("hide");
+					$("#namaBank").val("");
+					$("#norek").val("");
+					$("#atasNama").val("");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil ditambahkan.',
+						'success'
+					)
+				}
+			});
+		}
+	});
+});
+
+// Kirim Value Edit Rekening
+$(document).on('click', '.editRekening', function () {
+	var id_rekening = $(this).attr('data-id_rekening');
+	var namaBank = $(this).attr('data-nama_bank');
+	var norek = $(this).attr('data-norek');
+	var atasNama = $(this).attr('data-atas_nama');
+
+	$("#id_rekening").val(id_rekening);
+	$("#editNamaBank").val(namaBank);
+	$("#editNorek").val(norek);
+	$("#editAtasNama").val(atasNama);
+});
+
+// Update Rekening
+$("#editRekening").click(function () {
+	$("#formEditRekening").validate({
+		rules: {
+			editNamaBank: {
+				required: true
+			},
+			editNorek: {
+				required: true,
+				number: true,
+				minlength: 10,
+				maxlength: 16
+			},
+			editAtasNama: {
+				required: true
+			}
+		},
+		messages: {
+			editNamaBank: {
+				required: "Masukkan nama bank!"
+			},
+			editNorek: {
+				required: "Masukkan nomor rekening!",
+				number: "Harap masukkan angka!",
+				minlength: "Masukkan minimal 10 digit",
+				maxlength: "Masukkan maksimal 16 digit"
+			},
+			editAtasNama: {
+				required: "Masukkan nama!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let id_rekening = $("#id_rekening").val();
+			let editNamaBank = $("#editNamaBank").val();
+			let editNorek = $("#editNorek").val();
+			let editAtasNama = $("#editAtasNama").val();
+
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-primary',
+					cancelButton: 'btn btn-info mr-3'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah Anda Yakin?',
+				text: "Mengubah Data",
+				icon: 'question',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Ubah',
+				cancelButtonText: 'Batal',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.value) {
+
+					$.ajax({
+						type: "POST",
+						url: site_url + "Master/Rekening/update",
+						data: {
+							id_rekening: id_rekening,
+							editNamaBank: editNamaBank,
+							editNorek: editNorek,
+							editAtasNama: editAtasNama
+						},
+						success: function (data) {
+							$("#editNamaBank").val("");
+							$("#editNorek").val("");
+							$("#editAtasNama").val("");
+							$("#showRekening").load(site_url + "Master/Rekening/viewRekening");
+							$("#editRekening").modal("hide");
+
+							Swal.fire(
+								'Berhasil!',
+								'Data berhasil diubah.',
+								'success'
+							)
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+// Hapus Akun
+$("#showRekening").on('click', '.hapusRekening', function () {
+	var id_rekening = $(this).data("id_rekening");
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-primary',
+			cancelButton: 'btn btn-info mr-3'
+		},
+		buttonsStyling: false
+	})
+
+	swalWithBootstrapButtons.fire({
+		title: 'Apakah Anda Yakin?',
+		text: "Menghapus Data",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Ya, Hapus',
+		cancelButtonText: 'Batal',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.value) {
+
+			$.ajax({
+				type: "POST",
+				url: site_url + "Master/Rekening/delete",
+				data: {
+					id_rekening: id_rekening
+				},
+				success: function (data) {
+					$("#showRekening").load(site_url + "Master/Rekening/viewRekening");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil dihapus.',
+						'success'
+					)
+				}
+			});
+		}
+	});
 });

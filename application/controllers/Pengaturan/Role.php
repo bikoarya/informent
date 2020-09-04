@@ -5,11 +5,15 @@ class Role extends CI_Controller {
 
 	public function index()
     {
+		if ($this->session->userdata('nama_lengkap') != null) {
         $data['title'] = 'Informent | Role';
 		$this->load->view('Templates/Header', $data);
 		$this->load->view('Templates/Menu');
 		$this->load->view('Pengaturan/Role');
 		$this->load->view('Templates/Footer');
+		} else {
+			redirect('Notfound');
+		}
     }
 
     public function insert() 

@@ -17,6 +17,16 @@
 	}
 }
 
+.wrapper {
+	background-color: #e6e6e6;
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+	overflow: hidden;
+	position: fixed;
+}
+
 .title {
 	font-weight: lighter;
 	margin-top: -120px;
@@ -29,6 +39,7 @@
 .box {
 	position: absolute;
 	background-color: #ffff;
+	border-radius: 8px;
 	display: block;
 	left: 50%;
 	top: 50%;
