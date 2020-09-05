@@ -37,7 +37,7 @@ class Login extends CI_Controller {
 					'id_role' => $user['id_role']
 				];
 				$this->session->set_userdata($data);
-				redirect('Main');
+				redirect('Dashboard');
 			} else {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" id="alert" role="alert">
                     <b>Password salah!</b>
