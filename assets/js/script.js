@@ -178,7 +178,6 @@ $("#showRole").on('click', '.hapusRole', function () {
 			});
 		}
 	});
-
 });
 
 // Tambah Akun
@@ -615,7 +614,7 @@ $("#editRekening").click(function () {
 	});
 });
 
-// Hapus Akun
+// Hapus Rekening
 $("#showRekening").on('click', '.hapusRekening', function () {
 	var id_rekening = $(this).data("id_rekening");
 	const swalWithBootstrapButtons = Swal.mixin({
@@ -655,4 +654,177 @@ $("#showRekening").on('click', '.hapusRekening', function () {
 			});
 		}
 	});
+});
+
+// Tambah Penanggung Jawab
+$("#showPj").load(site_url + "Master/PenanggungJawab/viewPj");
+$("#simpanPj").click(function () {
+	$("#formPj").validate({
+		rules: {
+			namaPj: {
+				required: true
+			}
+		},
+		messages: {
+			namaPj: {
+				required: "Masukkan nama penanggung jawab!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let namaPj = $("#namaPj").val();
+			$.ajax({
+				url: site_url + "Master/PenanggungJawab/insert",
+				type: "POST",
+				data: {
+					namaPj: namaPj
+				},
+				success: function (data) {
+					$("#namaPj").val("");
+					$("#showPj").html(data);
+					$("#addPj").modal("hide");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil ditambahkan.',
+						'success'
+					)
+				}
+			});
+		}
+	});
+});
+
+// Kirim Value Ke Edit Penanggung Jawab
+$(document).on('click', '.editPj', function () {
+	var id_pj = $(this).attr('data-id_pj');
+	var namaPj = $(this).attr('data-nama_pj');
+
+	$("#id_pj").val(id_pj);
+	$("#editNamaPj").val(namaPj);
+});
+
+// Update Penanggung Jawab
+$("#editPj").click(function () {
+	$("#formEditPj").validate({
+		rules: {
+			editNamaPj: {
+				required: true
+			}
+		},
+		messages: {
+			editNamaPj: {
+				required: "Masukkan nama lengkap!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let id_pj = $("#id_pj").val();
+			let editNamaPj = $("#editNamaPj").val();
+
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-primary',
+					cancelButton: 'btn btn-info mr-3'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah Anda Yakin?',
+				text: "Mengubah Data",
+				icon: 'question',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Ubah',
+				cancelButtonText: 'Batal',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.value) {
+
+					$.ajax({
+						type: "POST",
+						url: site_url + "Master/PenanggungJawab/update",
+						data: {
+							id_pj: id_pj,
+							editNamaPj: editNamaPj
+						},
+						success: function (data) {
+							$("#editNamaPj").val("");
+							$("#showPj").load(site_url + "Master/PenanggungJawab/viewPj");
+							$("#editPj").modal("hide");
+
+							Swal.fire(
+								'Berhasil!',
+								'Data berhasil diubah.',
+								'success'
+							)
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+// Hapus Penanggung Jawab
+$("#showPj").on('click', '.hapusPj', function () {
+	var id_pj = $(this).data("id_pj");
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-primary',
+			cancelButton: 'btn btn-info mr-3'
+		},
+		buttonsStyling: false
+	});
+
+	swalWithBootstrapButtons.fire({
+		title: 'Apakah Anda Yakin?',
+		text: "Menghapus Data",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Ya, Hapus',
+		cancelButtonText: 'Batal',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.value) {
+
+			$.ajax({
+				type: "POST",
+				url: site_url + "Master/PenanggungJawab/delete",
+				data: {
+					id_pj: id_pj
+				},
+				success: function (data) {
+					$("#showPj").load(site_url + "Master/PenanggungJawab/viewPj");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil dihapus.',
+						'success'
+					)
+				}
+			});
+		}
+	});
+
 });

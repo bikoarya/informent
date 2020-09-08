@@ -2,39 +2,86 @@
 <div class="card" style="border-top: 5px solid #4E73DF;">
   <div class="card-body">
     <h4 class="card-title">Kuitansi</h4>
-    <div class="box-right" style="position: absolute; margin-left: 1030px; background-color: #f7f7f7; padding: 40px 20px 34px 20px; margin-top: -25px; border: 1px solid black; border-radius: 5px">
-        <h5 class="text-center font-weight-bold">Cetak Kuitansi</h5>
-    </div>
-    <form action="" method="POST">
-  <div class="row mt-4">
-  <div class="col-6">
-    <label for="pj">Penanggung Jawab</label>
-    <select class="form-control form-control-sm pj w-50" id="pj">
-        <option></option>
-        <option>Arsandi</option>
-    </select>
-    <div class="form-group mt-3">
-    <label for="tujuanPembayaran">Pembayaran Untuk</label>
-    <input type="text" class="form-control w-50" id="tujuanPembayaran" placeholder="Masukan tujuan pembayaran">
-    </div>
-    <div class="form-group mt-2">
-    <label for="terima">Telah Menerima Dari</label>
-    <input type="text" class="form-control w-50" id="terima" placeholder="Masukan nama perusahaan/individu">
-    </div>
-</div>
-<div class="col-6">
-    <div class="form-group mt-2">
-    <label for="uang">Jumlah Uang</label>
-    <input type="text" class="form-control w-50" id="uang" placeholder="(Rp.) Masukan nominal uang">
-    </div>
-    <div class="form-group mt-2">
-    <label for="terbilang">Banyaknya Uang (Terbilang)</label>
-    <input type="text" class="form-control w-50" id="terbilang" placeholder="Masukan banyaknya uang">
-    </div>
-</div>
-</div>
-<a href="<?= site_url('Kuitansi/cetak'); ?>" class="btn btn-primary mb-3" style="width: 80px; margin-left: 840px">Cetak</a>
-    </form>
+      <button type="button" class="btn btn-primary mt-3 mb-4" data-toggle="modal" data-target="#addKuitansi">
+      <i class="fas fa-plus-square"></i>
+        Tambah Kuitansi
+      </button>
+
+        <div class="table-responsive">
+        <table class="table table-hover" width="100%" cellspacing="0" id="tabelRole">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nomor Kuitansi</th>
+                <th>Penanggung Jawab</th>
+                <th>Guna Pembayaran</th>
+                <th>Terima Dari</th>
+                <th>Jumlah Uang (Rp)</th>
+                <th>Banyaknya Uang (Terbilang)</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="showKuitansi">
+
+            </tbody>
+        </table>
+        </div>
   </div>
 </div>
+</div>
+
+<!-- Modal Tambah Kuitansi -->
+<div class="modal fade" id="addKuitansi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Tambah Kuitansi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="formKuitansi">
+        <div class="form-group">
+        <label for="namaRole">No. Kuitansi</label>
+        <input type="text" class="form-control" name="noKuitansi" id="noKuitansi" autocomplete="off" placeholder="Masukan nomor kuitansi">
+        </div>
+        <div class="form-group">
+        <label for="tglKuitansi">Tanggal</label>
+        <input type="text" class="form-control tglKuitansi" name="tglKuitansi" id="tglKuitansi" autocomplete="off" placeholder="Masukan tanggal">
+        </div>
+        <div class="form-group">
+        <label for="pjKuitansi">Penanggung Jawab</label>
+ 				<select class="form-control pjKuitansi" name="pjKuitansi" id="pjKuitansi" autocomplete="off" style="width: 100%;">
+ 					<option value=""></option>
+ 						<?php foreach ($penanggungjawab as $pj) : ?>
+ 							<option value="<?= $pj['id_pj']; ?>"><?= $pj['nama_pj']; ?></option>
+ 						<?php endforeach; ?>
+ 				</select>
+        </div>
+        <div class="form-group">
+        <label for="gunaPembayaran">Guna Pembayaran</label>
+        <input type="text" class="form-control" name="gunaPembayaran" id="gunaPembayaran" autocomplete="off" placeholder="Masukan guna pembayaran">
+        </div>
+        <div class="form-group">
+        <label for="terimaDari">Telah Terima Dari</label>
+        <input type="text" class="form-control" name="terimaDari" id="terimaDari" autocomplete="off" placeholder="Masukan telah menerima dari">
+        </div>
+        <div class="form-group">
+        <label for="jumlahUang">Jumlah Uang (Rp.)</label>
+        <input type="text" class="form-control" name="terimaDari" id="terimaDari" autocomplete="off" placeholder="(Rp.) Masukan jumlah uang">
+        </div>
+        <div class="form-group">
+        <label for="terbilang">Banyaknya Uang (Terbilang)</label>
+        <input type="text" class="form-control" name="terbilang" id="terbilang" autocomplete="off" placeholder="Masukan banyaknya uang (terbilang)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" data-dismiss="modal">Batal</button>
+        <a href="<?= site_url('Kuitansi/Cetak'); ?>" class="btn btn-primary" id="simpanKuitansi">Simpan</a>
+      </div>
+      </form>
+    </div>
+  </div>
 </div>

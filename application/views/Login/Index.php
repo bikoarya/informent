@@ -16,7 +16,7 @@
                 <?= form_error('password', '<small class="text-danger pl-1">', '</small>'); ?>
             </div>
 
-            <button type="submit" class="text-white button mt-4" id="btn-login">Masuk</button>
+            <button type="submit" class="text-white button mt-4" id="btn-login" style="border-radius: 50px">Masuk</button>
             </div>
             </form>
     </div>

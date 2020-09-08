@@ -6,9 +6,9 @@
         <div class="error-content">
           <h3 class="title-error text-center"><i class="fas fa-exclamation-triangle text-warning mt-2"></i> Oops! Halaman tidak ditemukan.</h3>
 
-          <p class="text text-center">
+          <!-- <p class="text text-center">
             Kami tidak dapat menemukan halaman yang anda cari. Silahkan cari halaman yang sesuai.
-          </p>
+          </p> -->
 
 
         </div>

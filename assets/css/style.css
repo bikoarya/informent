@@ -114,3 +114,76 @@ input:focus {
 .headline {
 	font-size: 64px;
 }
+
+.img-logo {
+	width: 90px;
+	margin-top: -30px;
+	margin-left: -20px;
+}
+
+.text {
+	margin-left: 75px;
+	margin-top: -51px
+}
+
+.header {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	margin-bottom: 0;
+}
+
+.sub-header {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-weight: lighter;
+	margin-top: 0px;
+}
+
+.right {
+	margin-left: 520px;
+	margin-top: -60px;
+}
+
+.nomor {
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	font-weight: lighter;
+	margin-bottom: -8px;
+}
+
+.content {
+	margin-top: 30px;
+	/* border: 1px solid black; */
+	width: 220px;
+}
+
+.terima,
+.sejumlah,
+.untuk {
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	font-weight: lighter;
+}
+
+.rupiah {
+	margin-bottom: -9px;
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	font-weight: lighter;
+	margin-top: 5px;
+}
+
+.time {
+	font-weight: lighter;
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	margin-top: -80px;
+	margin-left: 540px;
+	font-size: 14px;
+	margin-bottom: 0;
+}
+
+.pj {
+	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	font-weight: lighter;
+	margin-top: 90px;
+	margin-left: 540px;
+}
+
+@page {
+	margin: 17mm 10mm 0 15mm;
+}
