@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 04, 2020 at 11:09 PM
+-- Generation Time: Sep 09, 2020 at 09:21 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -44,6 +44,25 @@ INSERT INTO `t_akun` (`id_akun`, `nama_lengkap`, `username`, `password`, `id_rol
 (1, 'Administrator', 'admin', '$2y$10$c0iKtNNwkGQWIqvoriikZOEladDtbVRrvdrNZpph23Bgh9/O6lgTa', 3),
 (2, 'Biko Arya', 'bikoarya', '$2y$10$LqaGfbWHRjG6yE67F0X4uOaCMxENjl09n70iVZAnyLr0D84xpl/mi', 4),
 (3, 'Pevita Pearce', 'pevita', '$2y$10$QKv70x4q76ElKA4T4uzi3.WLwo761./DNl97VeYk6Y1Wv0vTUyJFO', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_penanggungjawab`
+--
+
+CREATE TABLE `t_penanggungjawab` (
+  `id_pj` int(11) NOT NULL,
+  `nama_pj` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_penanggungjawab`
+--
+
+INSERT INTO `t_penanggungjawab` (`id_pj`, `nama_pj`) VALUES
+(1, 'Biko Arya Maulana'),
+(2, 'Pevita Pearce');
 
 -- --------------------------------------------------------
 
@@ -97,6 +116,12 @@ ALTER TABLE `t_akun`
   ADD PRIMARY KEY (`id_akun`);
 
 --
+-- Indexes for table `t_penanggungjawab`
+--
+ALTER TABLE `t_penanggungjawab`
+  ADD PRIMARY KEY (`id_pj`);
+
+--
 -- Indexes for table `t_rekening`
 --
 ALTER TABLE `t_rekening`
@@ -119,16 +144,22 @@ ALTER TABLE `t_akun`
   MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `t_penanggungjawab`
+--
+ALTER TABLE `t_penanggungjawab`
+  MODIFY `id_pj` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `t_rekening`
 --
 ALTER TABLE `t_rekening`
-  MODIFY `id_rekening` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_rekening` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `t_role`
 --
 ALTER TABLE `t_role`
-  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

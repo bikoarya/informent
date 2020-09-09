@@ -4,7 +4,7 @@
     <h4 class="card-title">Kuitansi</h4>
       <button type="button" class="btn btn-primary mt-3 mb-4" data-toggle="modal" data-target="#addKuitansi">
       <i class="fas fa-plus-square"></i>
-        Tambah Kuitansi
+        Cetak Kuitansi
       </button>
 
         <div class="table-responsive">
@@ -36,7 +36,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Tambah Kuitansi</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Cetak Kuitansi</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -79,7 +79,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-info" data-dismiss="modal">Batal</button>
-        <a href="<?= site_url('Kuitansi/Cetak'); ?>" class="btn btn-primary" id="simpanKuitansi">Simpan</a>
+        <a href="<?= site_url('Kuitansi/Cetak'); ?>" class="btn btn-primary" id="simpanKuitansi">Cetak</a>
       </div>
       </form>
     </div>
