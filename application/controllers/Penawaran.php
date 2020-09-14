@@ -6,6 +6,11 @@ class Penawaran extends CI_Controller {
 	public function index()
 	{
         $data['title'] = 'Informent | Penawaran';
+        $ar_agama = array(
+ 		'Biko Arya Maulana'=>'Biko Arya Maulana',
+ 		'Pevita Pearce'=>'Pevita Pearce'
+		 );
+ 		$data['f_agama'] = form_dropdown('agama', $ar_agama);
   //       $data['status'] = ['Lelang', 'Tunjuk Langsung', 'Pembelian Langsung'];
 		// $data['pelanggan'] = $this->m->get('t_customer');
 		// $data['satuan'] = $this->m->get('t_satuan');
@@ -17,36 +22,31 @@ class Penawaran extends CI_Controller {
 
 	function view()
 	{
-		// $data = $this->m->get('t_barang');
-		// echo json_encode($data);
+		$data = $this->model->get('t_penanggungjawab');
+		$data = $this->model->get('t_penawaran');
+		echo json_encode($data);
 	}
 
-	function show_data()
-	{
-		$output = '';
-		$no = 0;
-		$query = $this->db->query('SELECT name FROM grade');
-		$data  =   array();
-		foreach ($query->result_array() as $row):  {
-		// foreach ($this->cart->contents() as $items) {
-			// code...
-			$no++;
-			$total = $items['qty'] * $items['price'];
-			$output .= '
-			<tr>
-			<td>' . $no . '</td>
-			<td>' . $row['nama'] . '</td>
-			<td>' . $row['notelp'] . '</td>
-			<td>' . $row['email'] . '</td>
-			<td><a class="hapus_cart" id="' . $row['rowid'] . '"><i class="far fa-trash-alt text-danger fa-fw" style="font-size: 20px"></i></a></td>
-			</tr>
-			';
-		}
-		return $output;
+	function CetakPenawaran(){
+		$pj = $this->input->post('pj');
+		$penerima = $this->input->post('penerima');
+		$no = $this->input->post('no');
+		$date = $this->input->post('date');
+		$validity = $this->input->post('validity');
+		$hal = $this->input->post('hal');
+		$nodpb = $this->input->post('nodpb');
+ 
+		$data = array(
+			'pj' => $pj,
+			'penerima' => $penerima,
+			'no' => $no,
+			'date' => $date,
+			'validity' => $validity,
+			'hal' => $hal,
+			'nodpb' => $nodpb
+			);
+		$this->model->insert('t_penawaran',$data);
+		redirect('Penawaran/index');
 	}
 
-	function load()
-	{
-		echo $this->show_data();
-	}
 }
