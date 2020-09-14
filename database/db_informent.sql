@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 09, 2020 at 09:21 AM
+-- Generation Time: Sep 14, 2020 at 02:41 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -44,6 +44,33 @@ INSERT INTO `t_akun` (`id_akun`, `nama_lengkap`, `username`, `password`, `id_rol
 (1, 'Administrator', 'admin', '$2y$10$c0iKtNNwkGQWIqvoriikZOEladDtbVRrvdrNZpph23Bgh9/O6lgTa', 3),
 (2, 'Biko Arya', 'bikoarya', '$2y$10$LqaGfbWHRjG6yE67F0X4uOaCMxENjl09n70iVZAnyLr0D84xpl/mi', 4),
 (3, 'Pevita Pearce', 'pevita', '$2y$10$QKv70x4q76ElKA4T4uzi3.WLwo761./DNl97VeYk6Y1Wv0vTUyJFO', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_kuitansi`
+--
+
+CREATE TABLE `t_kuitansi` (
+  `id_kuitansi` int(11) NOT NULL,
+  `no_kuitansi` varchar(50) NOT NULL,
+  `tanggal_kuitansi` date NOT NULL,
+  `jumlah_uang` varchar(50) NOT NULL,
+  `guna_pembayaran` varchar(100) NOT NULL,
+  `terima_dari` varchar(100) NOT NULL,
+  `id_pj` int(11) NOT NULL,
+  `kode_kuitansi` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_kuitansi`
+--
+
+INSERT INTO `t_kuitansi` (`id_kuitansi`, `no_kuitansi`, `tanggal_kuitansi`, `jumlah_uang`, `guna_pembayaran`, `terima_dari`, `id_pj`, `kode_kuitansi`) VALUES
+(32, '67', '2020-09-14', '2.500.000', 'Pembelian alat elektronik', 'Bank BCA', 1, 'KUI0001'),
+(34, '34', '2020-09-27', '5.000.000', 'Membayar karyawan', 'Si Bos', 2, 'KUI0002'),
+(35, '78', '2020-09-07', '7.000.000', 'Beli jajan', 'Mamak', 1, 'KUI0003'),
+(36, '4567', '2020-09-21', '5.000.000', 'Beli laptop', 'Aku', 2, 'KUI0004');
 
 -- --------------------------------------------------------
 
@@ -116,6 +143,12 @@ ALTER TABLE `t_akun`
   ADD PRIMARY KEY (`id_akun`);
 
 --
+-- Indexes for table `t_kuitansi`
+--
+ALTER TABLE `t_kuitansi`
+  ADD PRIMARY KEY (`id_kuitansi`);
+
+--
 -- Indexes for table `t_penanggungjawab`
 --
 ALTER TABLE `t_penanggungjawab`
@@ -144,6 +177,12 @@ ALTER TABLE `t_akun`
   MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `t_kuitansi`
+--
+ALTER TABLE `t_kuitansi`
+  MODIFY `id_kuitansi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+
+--
 -- AUTO_INCREMENT for table `t_penanggungjawab`
 --
 ALTER TABLE `t_penanggungjawab`
@@ -159,7 +198,7 @@ ALTER TABLE `t_rekening`
 -- AUTO_INCREMENT for table `t_role`
 --
 ALTER TABLE `t_role`
-  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
