@@ -965,3 +965,109 @@ $("#showKuitansi").on('click', '.hapusKuitansi', function () {
 		}
 	});
 });
+
+// Tambah Invoice
+$("#showInvoice").load(site_url + "Invoice/viewInvoice");
+$("#simpanInvoice").click(function () {
+	$("#formInvoice").validate({
+		rules: {
+			noInvoice: {
+				required: true,
+				number: true
+			},
+			tglInvoice: {
+				required: true
+			},
+			tujuanInvoice: {
+				required: true
+			},
+			desk: {
+				required: true
+			},
+			hargaInvoice: {
+				required: true,
+				number: true
+			},
+			qty: {
+				required: true,
+				number: true
+			},
+			pjInvoice: {
+				required: true
+			}
+
+		},
+		messages: {
+			noInvoice: {
+				required: "Masukkan nomor invoice!",
+				number: "Masukan angka!"
+			},
+			tglInvoice: {
+				required: "Masukkan tanggal!"
+			},
+			tujuanInvoice: {
+				required: "Masukkan tujuan!"
+			},
+			desk: {
+				required: "Masukkan deskripsi!"
+			},
+			hargaInvoice: {
+				required: "Masukkan harga!",
+				number: "Masukkan angka!"
+			},
+			qty: {
+				required: "Masukkan qty!",
+				number: "Masukkan angka!" 
+			},
+			pjInvoice: {
+				required: "Masukkan penanggungjawab!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let noInvoice = $("#noInvoice").val();
+			let tglInvoice = $("#tglInvoice").val();
+			let tujuanInvoice = $("#tujuanInvoice").val();
+			let desk = $("#desk").val();
+			let hargaInvoice = $("#hargaInvoice").val();
+			let qty = $("#qty").val();
+			let pjInvoice = $("#pjInvoice").val();
+			$.ajax({
+				url: site_url + "Invoice/insert",
+				type: "POST",
+				data: {
+					noInvoice: noInvoice,
+					tglInvoice: tglInvoice,
+					tujuanInvoice: tujuanInvoice,
+					desk: desk,
+					hargaInvoice: hargaInvoice,
+					qty: qty,
+					pjInvoice: pjInvoice
+				},
+				success: function (data) {
+					$("#noInvoice").val("");
+					$("#tglInvoice").val("");
+					$("#tujuanInvoice").val("");
+					$("#desk").val("");
+					$("#hargaInvoice").val("");
+					$("#qty").val("");
+					$("#pjInvoice").val("");
+					$("#showInvoice").html(data);
+					$("#addInvoice").modal("hide");
+
+					window.location = "Invoice/Cetak";
+				}
+			});
+		}
+	});
+});
