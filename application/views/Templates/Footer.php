@@ -76,7 +76,6 @@
                   "body").style.visibility = "visible"; 
             } 
         };
-
   </script>
 
 </body>

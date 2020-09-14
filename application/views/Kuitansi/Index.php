@@ -13,12 +13,11 @@
               <tr>
                 <th>No</th>
                 <th>Nomor Kuitansi</th>
-                <th>Penanggung Jawab</th>
+                <th>Tanggal</th>
+                <th>Jumlah Uang</th>
                 <th>Guna Pembayaran</th>
                 <th>Terima Dari</th>
-                <th>Jumlah Uang (Rp)</th>
-                <th>Banyaknya Uang (Terbilang)</th>
-                <th>Tanggal</th>
+                <th>Penanggung Jawab</th>
                 <th>Aksi</th>
               </tr>
             </thead>
@@ -44,7 +43,8 @@
       <div class="modal-body">
         <form id="formKuitansi">
         <div class="form-group">
-        <label for="namaRole">No. Kuitansi</label>
+        <input type="hidden" name="kodeKuitansi" id="kodeKuitansi" placeholder="Kode Kuitansi" value="<?= $this->model->kode_kuitansi(); ?>">
+        <label for="noKuitansi">No. Kuitansi</label>
         <input type="text" class="form-control" name="noKuitansi" id="noKuitansi" autocomplete="off" placeholder="Masukan nomor kuitansi">
         </div>
         <div class="form-group">
@@ -52,13 +52,8 @@
         <input type="text" class="form-control tglKuitansi" name="tglKuitansi" id="tglKuitansi" autocomplete="off" placeholder="Masukan tanggal">
         </div>
         <div class="form-group">
-        <label for="pjKuitansi">Penanggung Jawab</label>
- 				<select class="form-control pjKuitansi" name="pjKuitansi" id="pjKuitansi" autocomplete="off" style="width: 100%;">
- 					<option value=""></option>
- 						<?php foreach ($penanggungjawab as $pj) : ?>
- 							<option value="<?= $pj['id_pj']; ?>"><?= $pj['nama_pj']; ?></option>
- 						<?php endforeach; ?>
- 				</select>
+        <label for="jumlahUang">Jumlah Uang</label>
+        <input type="text" class="form-control" name="jumlahUang" id="jumlahUang" autocomplete="off" placeholder="(Rp.) Masukan jumlah uang">
         </div>
         <div class="form-group">
         <label for="gunaPembayaran">Guna Pembayaran</label>
@@ -69,17 +64,18 @@
         <input type="text" class="form-control" name="terimaDari" id="terimaDari" autocomplete="off" placeholder="Masukan telah menerima dari">
         </div>
         <div class="form-group">
-        <label for="jumlahUang">Jumlah Uang (Rp.)</label>
-        <input type="text" class="form-control" name="terimaDari" id="terimaDari" autocomplete="off" placeholder="(Rp.) Masukan jumlah uang">
-        </div>
-        <div class="form-group">
-        <label for="terbilang">Banyaknya Uang (Terbilang)</label>
-        <input type="text" class="form-control" name="terbilang" id="terbilang" autocomplete="off" placeholder="Masukan banyaknya uang (terbilang)">
+        <label for="pjKuitansi">Penanggung Jawab</label>
+ 				<select class="form-control pjKuitansi" name="pjKuitansi" id="pjKuitansi" autocomplete="off" style="width: 100%;">
+ 					<option value=""></option>
+ 						<?php foreach ($penanggungjawab as $pj) : ?>
+ 							<option value="<?= $pj['id_pj']; ?>"><?= $pj['nama_pj']; ?></option>
+ 						<?php endforeach; ?>
+ 				</select>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-info" data-dismiss="modal">Batal</button>
-        <a href="<?= site_url('Kuitansi/Cetak'); ?>" class="btn btn-primary" id="simpanKuitansi">Cetak</a>
+        <button type="submit" class="btn btn-primary" id="simpanKuitansi">Cetak</button>
       </div>
       </form>
     </div>

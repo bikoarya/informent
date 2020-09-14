@@ -826,5 +826,142 @@ $("#showPj").on('click', '.hapusPj', function () {
 			});
 		}
 	});
+});
 
+// Tambah Kuitansi
+$("#showKuitansi").load(site_url + "Kuitansi/viewKuitansi");
+$("#simpanKuitansi").click(function () {
+	$("#formKuitansi").validate({
+		rules: {
+			noKuitansi: {
+				required: true,
+				number: true
+			},
+			tglKuitansi: {
+				required: true
+			},
+			jumlahUang: {
+				required: true
+			},
+			gunaPembayaran: {
+				required: true
+			},
+			terimaDari: {
+				required: true
+			},
+			pjKuitansi: {
+				required: true
+			}
+		},
+		messages: {
+			noKuitansi: {
+				required: "Masukkan nomor kuitansi!",
+				number: "Masukkan angka!"
+			},
+			tglKuitansi: {
+				required: "Masukkan tanggal!"
+			},
+			jumlahUang: {
+				required: "Masukkan jumlah uang!"
+			},
+			gunaPembayaran: {
+				required: "Masukkan guna pembayaran!"
+			},
+			terimaDari: {
+				required: "Masukkan telah menerima dari!"
+			},
+			pjKuitansi: {
+				required: "Masukkan penanggung jawab!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let noKuitansi = $("#noKuitansi").val();
+			let tglKuitansi = $("#tglKuitansi").val();
+			let jumlahUang = $("#jumlahUang").val();
+			let gunaPembayaran = $("#gunaPembayaran").val();
+			let terimaDari = $("#terimaDari").val();
+			let pjKuitansi = $("#pjKuitansi").val();
+			let kodeKuitansi = $('#kodeKuitansi').val();
+			$.ajax({
+				url: site_url + "Kuitansi/insert",
+				type: "POST",
+				data: {
+					noKuitansi: noKuitansi,
+					tglKuitansi: tglKuitansi,
+					jumlahUang: jumlahUang,
+					gunaPembayaran: gunaPembayaran,
+					terimaDari: terimaDari,
+					pjKuitansi: pjKuitansi,
+					kodeKuitansi: kodeKuitansi
+				},
+				success: function (data) {
+					$("#noKuitansi").val("");
+					$("#tglKuitansi").val("");
+					$("#jumlahUang").val("");
+					$("#gunaPembayaran").val("");
+					$("#terimaDari").val("");
+					$("#pjKuitansi").val("");
+					$("#kode_kuitansi").val("");
+					$("#showKuitansi").html(data);
+					$("#addKuitansi").modal("hide");
+
+					window.location = "Kuitansi/Cetak";
+
+				}
+			});
+		}
+	});
+});
+
+// Hapus Kuitansi
+$("#showKuitansi").on('click', '.hapusKuitansi', function () {
+	var id_kuitansi = $(this).data("id_kuitansi");
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-primary',
+			cancelButton: 'btn btn-info mr-3'
+		},
+		buttonsStyling: false
+	});
+
+	swalWithBootstrapButtons.fire({
+		title: 'Apakah Anda Yakin?',
+		text: "Menghapus Data",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Ya, Hapus',
+		cancelButtonText: 'Batal',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.value) {
+
+			$.ajax({
+				type: "POST",
+				url: site_url + "Kuitansi/delete",
+				data: {
+					id_kuitansi: id_kuitansi
+				},
+				success: function (data) {
+					$("#showKuitansi").load(site_url + "Kuitansi/viewKuitansi");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil dihapus.',
+						'success'
+					)
+				}
+			});
+		}
+	});
 });

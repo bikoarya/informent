@@ -130,4 +130,24 @@ class Models extends CI_Model {
 
 		return $this->db->GET($table);
 	}
+
+	function kode_kuitansi()
+	{
+		$this->db->SELECT('RIGHT(t_kuitansi.kode_kuitansi,4) as kode', FALSE);
+		$this->db->order_by('kode_kuitansi', 'DESC');
+		$this->db->limit(1);
+		$query = $this->db->get('t_kuitansi');
+		if ($query->num_rows() <> 0) {
+			// jika kodesudah ada
+			$data = $query->row();
+			$kode = intval($data->kode) + 1;
+		} else {
+			//jika kode belum ada
+			$kode = 1;
+		}
+		$kodemax = str_pad($kode, 4, "0", STR_PAD_LEFT);
+		$kodejadi = "KUI" . $kodemax;
+
+		return $kodejadi;
+	}
 }

@@ -15,19 +15,21 @@
             <h5 class="sub-header">Innovation & Technology</h5>
         </div>
         <div class="right">
-            <h4 class="nomor">No : </h4>
+            <h4 class="nomor">No : <?= $value['no_kuitansi'] ?></h4>
             <hr class="no_line">
         </div>
         <div class="content">
-            <h4 class="terima">Telah terima dari &nbsp;&nbsp;&nbsp; :</h4>
+            <h4 class="terima">Telah terima dari &nbsp;&nbsp;&nbsp; : <?= $value['terima_dari']; ?></h4>
             <h4 class="sejumlah">Uang sejumlah &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</h4>
-            <h4 class="untuk">Untuk Pembayaran &nbsp;: </h4>
-            <hr style="margin-bottom: 0; margin-top: 60px">
-            <h4 class="rupiah">Rp.</h4>
-            <hr style="">
+            <h4 class="untuk">Untuk Pembayaran &nbsp;: <?= $value['guna_pembayaran'] ?> </h4>
         </div>
-            <h4 class="time">Malang, <?= date('Y-m-d') ?></h4>
-            <h4 class="pj">Biko Arya Maulana</h4>
+        <div class="haer">
+        <hr style="margin-bottom: 0; margin-top: 60px">
+        <h4 class="rupiah" style="font-weight: bold">Rp. <?= $value['jumlah_uang'] ?></h4>
+        <hr style="">
+        </div>
+            <h4 class="time">Malang, <?= date('d-m-Y', strtotime($value['tanggal_kuitansi'])) ?></h4>
+            <h4 class="pj"><?= $value['nama_pj']; ?>
     </div>
 </body>
 </html>

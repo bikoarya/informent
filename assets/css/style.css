@@ -151,7 +151,11 @@ input:focus {
 .content {
 	margin-top: 30px;
 	/* border: 1px solid black; */
-	width: 220px;
+	/* width: 320px; */
+}
+
+.haer {
+	width: 200px;
 }
 
 .terima,
