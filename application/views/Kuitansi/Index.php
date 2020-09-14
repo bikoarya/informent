@@ -75,7 +75,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-info" data-dismiss="modal">Batal</button>
-        <button type="submit" class="btn btn-primary" id="simpanKuitansi">Cetak</button>
+        <button type="submit" class="btn btn-primary" id="simpanKuitansi"><i class="fas fa-print"></i> Cetak</button>
       </div>
       </form>
     </div>
