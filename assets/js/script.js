@@ -1305,10 +1305,15 @@ $("#simpanBarang").click(function () {
 		},
 		submitHandler: function (form) {
 			let kodePenawaran = $("#kodePenawaran").val();
+			let customerPenawaran = $("#customerPenawaran").val();
+			let noPenawaran = $("#noPenawaran").val();
+			let tglPenawaran = $("#tglPenawaran").val();
+			let periode = $("#periode").val();
+			let hal = $("#hal").val();
+			let pjPenawaran = $("#pjPenawaran").val();
 			let namaBarang = $("#namaBarang").val();
 			let spesifikasi = $("#spesifikasi").val();
 			let satuan = $("#satuan").val();
-			// let bagian = $("#bagian").val();
 			let harga = $("#harga").val();
 			let qty = $("#qty").val();
 			$.ajax({
@@ -1316,10 +1321,15 @@ $("#simpanBarang").click(function () {
 				type: "POST",
 				data: {
 					kodePenawaran: kodePenawaran,
+					customerPenawaran: customerPenawaran,
+					noPenawaran: noPenawaran,
+					tglPenawaran: tglPenawaran,
+					periode: periode,
+					hal: hal,
+					pjPenawaran: pjPenawaran,
 					namaBarang: namaBarang,
 					spesifikasi: spesifikasi,
 					satuan: satuan,
-					// bagian: bagian,
 					harga: harga,
 					qty: qty
 				},
@@ -1402,13 +1412,19 @@ $("#showCart").on('click', '.hapusCart', function () {
 });
 
 $(document).on('click', '.barang', function () {
-	var kodePenawaran = $("#kodePenawaran").val();
-	var id_barang = $(this).data('id_barang');
-	var nama_barang = $(this).data('nama_barang');
-	var spek = $(this).data('spesifikasi');
-	var satuann = $(this).data('satuan');
-	var bagiann = $(this).data('bagian');
-	var hargaa = $(this).data('harga');
+	let kodePenawaran = $("#kodePenawaran").val();
+	let customerPenawaran = $("#customerPenawaran").val();
+	let noPenawaran = $("#noPenawaran").val();
+	let tglPenawaran = $("#tglPenawaran").val();
+	let periode = $("#periode").val();
+	let hal = $("#hal").val();
+	let pjPenawaran = $("#pjPenawaran").val();
+	let id_barang = $(this).data('id_barang');
+	let nama_barang = $(this).data('nama_barang');
+	let spek = $(this).data('spesifikasi');
+	let satuann = $(this).data('satuan');
+	let bagiann = $(this).data('bagian');
+	let hargaa = $(this).data('harga');
 
 	$("#id_barang").val(id_barang);
 
@@ -1417,6 +1433,12 @@ $(document).on('click', '.barang', function () {
 		type: 'POST',
 		data: {
 			kodePenawaran: kodePenawaran,
+			customerPenawaran: customerPenawaran,
+			noPenawaran: noPenawaran,
+			tglPenawaran: tglPenawaran,
+			periode: periode,
+			hal: hal,
+			pjPenawaran: pjPenawaran,
 			id_barang: id_barang,
 			nama_barang: nama_barang,
 			spek: spek,

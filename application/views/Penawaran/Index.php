@@ -13,23 +13,27 @@
               <div class="col-md-8">
               <select class="form-control customer" name="customerPenawaran" id="customerPenawaran" autocomplete="off" style="width: 270px;">
  					      <option value=""></option>
- 					      <option value="newCustomer" id="cok">Customer Baru</option>
-                 <?php foreach($customer as $cst) : ?>
-                    <option value="<?= $cst['id_customer'] ?>"><?= $cst['nama_customer']; ?></option>
-                 <?php endforeach; ?>
+ 					      <option value="newCustomer" id="new">Customer Baru</option>
+                 <?php foreach ($customer as $cust) { ?>
+									<?php if ($this->session->userdata('id_customer') == $cust['id_customer']) { ?>
+										<option value="<?= $cust['id_customer'] ?>" selected><?= $cust['nama_customer'] ?></option>
+									<?php } else { ?>
+										<option value="<?= $cust['id_customer'] ?>"><?= $cust['nama_customer'] ?></option>
+									<?php } ?>
+								<?php } ?>
  				      </select>
               </div>
             </div>
             <div class="form-group row">
               <label for="noPenawaran" class="col-md-4 col-form-label">No. Penawaran &emsp;&emsp; : </label>
               <div class="col-md-8">
-                <input type="text" class="form-control" autocomplete="off" name="noPenawaran" id="noPenawaran" placeholder="Masukan nomor penawaran" style="width: 270px">
+                <input type="text" class="form-control" autocomplete="off" name="noPenawaran" id="noPenawaran" placeholder="Masukan nomor penawaran" style="width: 270px" value="<?= $this->session->userdata('no_penawaran'); ?>">
               </div>
             </div>
             <div class="form-group row">
               <label for="tglPenawaran" class="col-md-4 col-form-label">Tanggal &emsp;&emsp;&emsp;&emsp;&emsp; : </label>
               <div class="col-md-8">
-                <input type="text" class="form-control" data-date-format="dd-mm-yyyy" autocomplete="off" name="tglPenawaran" id="tglPenawaran" placeholder="Masukan tanggal" style="width: 200px">
+                <input type="text" class="form-control" data-date-format="dd-mm-yyyy" autocomplete="off" name="tglPenawaran" id="tglPenawaran" placeholder="Masukan tanggal" style="width: 200px" value="<?= $this->session->userdata('date'); ?>">
               </div>
             </div>
             </div>
@@ -37,13 +41,13 @@
             <div class="form-group row">
               <label for="periode" class="col-md-5 col-form-label">Periode &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp; : </label>
               <div class="col-md-7">
-                <input type="text" class="form-control" autocomplete="off" name="periode" id="periode" placeholder="Batas periode (hari)" style="width: 200px">
+                <input type="number" class="form-control" autocomplete="off" name="periode" id="periode" placeholder="Batas periode (hari)" style="width: 200px" value="<?= $this->session->userdata('periode'); ?>">
               </div>
             </div>
             <div class="form-group row">
               <label for="hal" class="col-md-5 col-form-label">Hal&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </label>
               <div class="col-md-7">
-                <input type="text" class="form-control" autocomplete="off" name="hal" id="hal" placeholder="Masukan hal" style="width: 270px">
+                <input type="text" class="form-control" autocomplete="off" name="hal" id="hal" placeholder="Masukan hal" style="width: 270px" value="<?= $this->session->userdata('hal'); ?>">
               </div>
             </div>
             <div class="form-group row">
@@ -51,9 +55,13 @@
               <div class="col-md-7">
               <select class="form-control pjPenawaran" name="pjPenawaran" id="pjPenawaran" autocomplete="off" style="width: 270px;">
  					      <option value=""></option>
- 						      <?php foreach ($penanggungjawab as $pj) : ?>
- 							      <option value="<?= $pj['id_pj']; ?>"><?= $pj['nama_pj']; ?></option>
- 						      <?php endforeach; ?>
+                 <?php foreach ($penanggungjawab as $pj) { ?>
+									<?php if ($this->session->userdata('id_pj') == $pj['id_pj']) { ?>
+										<option value="<?= $pj['id_pj'] ?>" selected><?= $pj['nama_pj'] ?></option>
+									<?php } else { ?>
+										<option value="<?= $pj['id_pj'] ?>"><?= $pj['nama_pj'] ?></option>
+									<?php } ?>
+								<?php } ?>
  				      </select>
               </div>
             </div>

@@ -25,10 +25,16 @@ class Penawaran extends CI_Controller {
 	public function insert() 
 	{
 		$kodePenawaran 	= htmlspecialchars($this->input->post('kodePenawaran'));
+		$customerPenawaran = htmlspecialchars($this->input->post('customerPenawaran'));
+		$noPenawaran = htmlspecialchars($this->input->post('noPenawaran'));
+		$tglPenawaran = htmlspecialchars($this->input->post('tglPenawaran'));
+		$periode = htmlspecialchars($this->input->post('periode'));
+		$hal = htmlspecialchars($this->input->post('hal'));
+		$pjPenawaran = htmlspecialchars($this->input->post('pjPenawaran'));
+
 		$namaBarang 	= htmlspecialchars($this->input->post('namaBarang'));
 		$spesifikasi 	= htmlspecialchars($this->input->post('spesifikasi'));
 		$satuan 		= htmlspecialchars($this->input->post('satuan'));
-		// $bagian 		= htmlspecialchars($this->input->post('bagian'));
 		$qty 			= htmlspecialchars($this->input->post('qty'));
 		$price 			= htmlspecialchars($this->input->post('harga'));
 		$fprice 		= str_replace("Rp. ", "", $price);
@@ -47,7 +53,13 @@ class Penawaran extends CI_Controller {
 		$kode_penawaran = $this->model->kodePenawaran();
 
 		$session = [
-			'kode_penawaran' => $kode_penawaran
+			'kode_penawaran' => $kode_penawaran,
+			'id_customer' => $customerPenawaran,
+			'no_penawaran' => $noPenawaran,
+			'date' => $tglPenawaran,
+			'periode' => $periode,
+			'hal' => $hal,
+			'id_pj' => $pjPenawaran
 		];
 		$this->session->set_userdata($session);
 
@@ -111,6 +123,13 @@ class Penawaran extends CI_Controller {
 	public function Search()
 	{
 		$kode_penawaran	= htmlspecialchars($this->input->post('kodePenawaran'));
+		$customerPenawaran = htmlspecialchars($this->input->post('customerPenawaran'));
+		$noPenawaran = htmlspecialchars($this->input->post('noPenawaran'));
+		$tglPenawaran = htmlspecialchars($this->input->post('tglPenawaran'));
+		$periode = htmlspecialchars($this->input->post('periode'));
+		$hal = htmlspecialchars($this->input->post('hal'));
+		$pjPenawaran = htmlspecialchars($this->input->post('pjPenawaran'));
+		
 		$id_barang 		= htmlspecialchars($this->input->post('id_barang'));
 		$nama_barang 	= htmlspecialchars($this->input->post('nama_barang'));
 		$spesifikasi 	= htmlspecialchars($this->input->post('spek'));
@@ -131,7 +150,13 @@ class Penawaran extends CI_Controller {
 		];
 
 		$session = [
-			'kode_penawaran' => $kode_penawaran
+			'kode_penawaran' => $kode_penawaran,
+			'id_customer' => $customerPenawaran,
+			'no_penawaran' => $noPenawaran,
+			'date' => $tglPenawaran,
+			'periode' => $periode,
+			'hal' => $hal,
+			'id_pj' => $pjPenawaran
 		];
 		$this->session->set_userdata($session);
 		$this->cart->insert($cart);
@@ -148,23 +173,37 @@ class Penawaran extends CI_Controller {
 		$pj = htmlspecialchars($this->input->post('pjPenawaran'));
 
 		foreach ($this->cart->contents() as $items) {
-			$insert = [
-				'kode_penawaran' => $this->session->userdata('kode_penawaran'),
-				'id_barang' => $items['id'],
-				'qty' => $items['qty'],
-				'id_customer' => $customer,
-				'id_pj' => $pj,
-				'no_penawaran' => $nomor,
-				'date' => $date,
-				'periode' => $periode,
-				'hal' => $hal
-			];
-			$this->model->insert('t_penawaran', $insert);
+				$insert = [
+					'kode_penawaran' => $this->session->userdata('kode_penawaran'),
+					'id_barang' => $items['id'],
+					'qty_penawaran' => $items['qty'],
+					'id_customer' => $customer,
+					'id_pj' => $pj,
+					'no_penawaran' => $nomor,
+					'date' => $date,
+					'periode' => $periode,
+					'hal' => $hal
+				];
+				if ($insert != null) {
+					$this->model->insert('t_penawaran', $insert);
+				}else{
+					echo '<script>alert("Masih Ada Data Kosong")</script>';
+				}
 		}
 	}
 
 	public function Cetak($id)
 	{
+		$this->cart->destroy();
+		$unset = [
+			'id_customer',
+			'no_penawaran',
+			'date',
+			'periode',
+			'hal',
+			'id_pj'
+		];
+		$this->session->unset_userdata($unset);
 		$mpdf = new \Mpdf\Mpdf();
 		$mpdf->SetTitle('Cetak Penawaran');
 		$mpdf->AddPage('L');
