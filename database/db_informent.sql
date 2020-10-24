@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2020 at 05:20 PM
+-- Generation Time: Oct 24, 2020 at 09:28 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -67,7 +67,9 @@ CREATE TABLE `t_barang` (
 INSERT INTO `t_barang` (`id_barang`, `nama_barang`, `spesifikasi`, `nama_satuan`, `qty`, `harga`) VALUES
 (32, 'Sempak kasogi', 'Autentik', 'UNIT', 2, 75000),
 (33, 'Sepatu Ardiles', 'Warna hitam, ukuran 40', 'UNIT', 1, 250000),
-(35, 'Kaos Nevada', 'Cotton, size L', 'UNIT', 1, 250000);
+(35, 'Kaos Nevada', 'Cotton, size L', 'UNIT', 1, 150000),
+(42, 'Laptop ASUS', 'Core i7, SSD 512 GB PCIe NVMe, AMD Ryzen 7-3750H, 144 Hz', 'UNIT', 1, 15000000),
+(43, 'sdfdfdfdfdfdfdf', 'dfdfdfdfd', 'LEMBAR', 2, 100000);
 
 -- --------------------------------------------------------
 
@@ -147,7 +149,7 @@ CREATE TABLE `t_penawaran` (
   `id_penawaran` int(11) NOT NULL,
   `kode_penawaran` varchar(50) NOT NULL,
   `id_barang` int(11) NOT NULL,
-  `qty` int(50) NOT NULL,
+  `qty_penawaran` int(50) NOT NULL,
   `id_customer` int(11) NOT NULL,
   `id_pj` int(11) NOT NULL,
   `no_penawaran` varchar(50) NOT NULL,
@@ -160,21 +162,14 @@ CREATE TABLE `t_penawaran` (
 -- Dumping data for table `t_penawaran`
 --
 
-INSERT INTO `t_penawaran` (`id_penawaran`, `kode_penawaran`, `id_barang`, `qty`, `id_customer`, `id_pj`, `no_penawaran`, `date`, `periode`, `hal`) VALUES
-(19, 'PWR0001', 32, 1, 2, 1, '2050', '2020-10-20', 40, 'cok'),
-(20, 'PWR0001', 33, 1, 2, 1, '2050', '2020-10-20', 40, 'cok'),
-(21, 'PWR0002', 32, 1, 3, 4, '105', '2020-10-12', 40, 'Gaktau'),
-(22, 'PWR0002', 33, 1, 3, 4, '105', '2020-10-12', 40, 'Gaktau'),
-(23, 'PWR0003', 32, 1, 3, 4, '78', '2020-10-23', 15, 'Tumbas'),
-(24, 'PWR0003', 35, 1, 3, 4, '78', '2020-10-23', 15, 'Tumbas'),
-(25, 'PWR0004', 32, 1, 2, 1, '45', '2020-10-20', 12, 'Pembelian pakaian'),
-(26, 'PWR0004', 35, 2, 2, 1, '45', '2020-10-20', 12, 'Pembelian pakaian'),
-(27, 'PWR0004', 33, 1, 2, 1, '45', '2020-10-20', 12, 'Pembelian pakaian'),
-(28, 'PWR0005', 32, 1, 1, 2, '105', '2020-10-28', 60, 'askk'),
-(29, 'PWR0006', 36, 5, 1, 4, '56777', '2020-10-21', 14, 'asknf;sa'),
-(30, 'PWR0006', 37, 3, 1, 4, '56777', '2020-10-21', 14, 'asknf;sa'),
-(31, 'PWR0007', 38, 4, 3, 4, '99', '2020-10-14', 80, 'taek'),
-(32, 'PWR0007', 39, 1, 3, 4, '99', '2020-10-14', 80, 'taek');
+INSERT INTO `t_penawaran` (`id_penawaran`, `kode_penawaran`, `id_barang`, `qty_penawaran`, `id_customer`, `id_pj`, `no_penawaran`, `date`, `periode`, `hal`) VALUES
+(69, 'PWR0001', 32, 1, 3, 4, '112/INF/XII/2020', '2020-10-24', 15, 'Penawaran Pengadaan Barang'),
+(70, 'PWR0001', 35, 2, 3, 4, '112/INF/XII/2020', '2020-10-24', 15, 'Penawaran Pengadaan Barang'),
+(71, 'PWR0001', 33, 1, 3, 4, '112/INF/XII/2020', '2020-10-24', 15, 'Penawaran Pengadaan Barang'),
+(72, 'PWR0002', 32, 1, 1, 1, '567', '2020-10-21', 10, 'asf'),
+(73, 'PWR0002', 33, 2, 1, 1, '567', '2020-10-21', 10, 'asf'),
+(74, 'PWR0002', 35, 1, 1, 1, '567', '2020-10-21', 10, 'asf'),
+(75, 'PWR0003', 43, 2, 1, 2, '44', '2020-10-24', 11, 'xzds');
 
 -- --------------------------------------------------------
 
@@ -310,7 +305,7 @@ ALTER TABLE `t_akun`
 -- AUTO_INCREMENT for table `t_barang`
 --
 ALTER TABLE `t_barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `t_customer`
@@ -334,7 +329,7 @@ ALTER TABLE `t_penanggungjawab`
 -- AUTO_INCREMENT for table `t_penawaran`
 --
 ALTER TABLE `t_penawaran`
-  MODIFY `id_penawaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_penawaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
 --
 -- AUTO_INCREMENT for table `t_rekening`
