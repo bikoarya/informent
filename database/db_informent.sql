@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 14, 2020 at 02:41 PM
+-- Generation Time: Oct 24, 2020 at 05:20 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -43,7 +43,53 @@ CREATE TABLE `t_akun` (
 INSERT INTO `t_akun` (`id_akun`, `nama_lengkap`, `username`, `password`, `id_role`) VALUES
 (1, 'Administrator', 'admin', '$2y$10$c0iKtNNwkGQWIqvoriikZOEladDtbVRrvdrNZpph23Bgh9/O6lgTa', 3),
 (2, 'Biko Arya', 'bikoarya', '$2y$10$LqaGfbWHRjG6yE67F0X4uOaCMxENjl09n70iVZAnyLr0D84xpl/mi', 4),
-(3, 'Pevita Pearce', 'pevita', '$2y$10$QKv70x4q76ElKA4T4uzi3.WLwo761./DNl97VeYk6Y1Wv0vTUyJFO', 4);
+(3, 'Pevita Pearce', 'pevita', '$2y$10$wodqSv72Nbtytt5Rgm56EevMtHl3NxJKzs3LMFDuKKfZDWs9LDgpq', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_barang`
+--
+
+CREATE TABLE `t_barang` (
+  `id_barang` int(11) NOT NULL,
+  `nama_barang` varchar(100) NOT NULL,
+  `spesifikasi` text NOT NULL,
+  `nama_satuan` varchar(50) NOT NULL,
+  `qty` int(20) NOT NULL,
+  `harga` int(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_barang`
+--
+
+INSERT INTO `t_barang` (`id_barang`, `nama_barang`, `spesifikasi`, `nama_satuan`, `qty`, `harga`) VALUES
+(32, 'Sempak kasogi', 'Autentik', 'UNIT', 2, 75000),
+(33, 'Sepatu Ardiles', 'Warna hitam, ukuran 40', 'UNIT', 1, 250000),
+(35, 'Kaos Nevada', 'Cotton, size L', 'UNIT', 1, 250000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_customer`
+--
+
+CREATE TABLE `t_customer` (
+  `id_customer` int(11) NOT NULL,
+  `nama_customer` varchar(100) NOT NULL,
+  `alamat` varchar(100) NOT NULL,
+  `no_hp` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_customer`
+--
+
+INSERT INTO `t_customer` (`id_customer`, `nama_customer`, `alamat`, `no_hp`) VALUES
+(1, 'Anya Geraldine', 'Malang, Indonesia', '081259464280'),
+(2, 'Chelsea Islan', 'Kemang, Jakarta Selatan', '081300750875'),
+(3, 'Pevita Pearce', 'Menteng, Jakarta Pusat', '081550785365');
 
 -- --------------------------------------------------------
 
@@ -67,10 +113,9 @@ CREATE TABLE `t_kuitansi` (
 --
 
 INSERT INTO `t_kuitansi` (`id_kuitansi`, `no_kuitansi`, `tanggal_kuitansi`, `jumlah_uang`, `guna_pembayaran`, `terima_dari`, `id_pj`, `kode_kuitansi`) VALUES
-(32, '67', '2020-09-14', '2.500.000', 'Pembelian alat elektronik', 'Bank BCA', 1, 'KUI0001'),
-(34, '34', '2020-09-27', '5.000.000', 'Membayar karyawan', 'Si Bos', 2, 'KUI0002'),
-(35, '78', '2020-09-07', '7.000.000', 'Beli jajan', 'Mamak', 1, 'KUI0003'),
-(36, '4567', '2020-09-21', '5.000.000', 'Beli laptop', 'Aku', 2, 'KUI0004');
+(97, '0001', '2020-10-13', '5000000', 'asknfals', 'asmf', 1, 'KUI0001'),
+(98, '0002', '2020-10-14', '3000000', 'klansf', 'klnasfss', 4, 'KUI0002'),
+(99, '0003', '2020-10-20', '300000000', 'ljasnf', 'ljnamsf', 2, 'KUI0003');
 
 -- --------------------------------------------------------
 
@@ -89,7 +134,47 @@ CREATE TABLE `t_penanggungjawab` (
 
 INSERT INTO `t_penanggungjawab` (`id_pj`, `nama_pj`) VALUES
 (1, 'Biko Arya Maulana'),
-(2, 'Pevita Pearce');
+(2, 'Pevita Pearce'),
+(4, 'Yuniar A. Arsandi S.T.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_penawaran`
+--
+
+CREATE TABLE `t_penawaran` (
+  `id_penawaran` int(11) NOT NULL,
+  `kode_penawaran` varchar(50) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `qty` int(50) NOT NULL,
+  `id_customer` int(11) NOT NULL,
+  `id_pj` int(11) NOT NULL,
+  `no_penawaran` varchar(50) NOT NULL,
+  `date` date NOT NULL,
+  `periode` int(20) NOT NULL,
+  `hal` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_penawaran`
+--
+
+INSERT INTO `t_penawaran` (`id_penawaran`, `kode_penawaran`, `id_barang`, `qty`, `id_customer`, `id_pj`, `no_penawaran`, `date`, `periode`, `hal`) VALUES
+(19, 'PWR0001', 32, 1, 2, 1, '2050', '2020-10-20', 40, 'cok'),
+(20, 'PWR0001', 33, 1, 2, 1, '2050', '2020-10-20', 40, 'cok'),
+(21, 'PWR0002', 32, 1, 3, 4, '105', '2020-10-12', 40, 'Gaktau'),
+(22, 'PWR0002', 33, 1, 3, 4, '105', '2020-10-12', 40, 'Gaktau'),
+(23, 'PWR0003', 32, 1, 3, 4, '78', '2020-10-23', 15, 'Tumbas'),
+(24, 'PWR0003', 35, 1, 3, 4, '78', '2020-10-23', 15, 'Tumbas'),
+(25, 'PWR0004', 32, 1, 2, 1, '45', '2020-10-20', 12, 'Pembelian pakaian'),
+(26, 'PWR0004', 35, 2, 2, 1, '45', '2020-10-20', 12, 'Pembelian pakaian'),
+(27, 'PWR0004', 33, 1, 2, 1, '45', '2020-10-20', 12, 'Pembelian pakaian'),
+(28, 'PWR0005', 32, 1, 1, 2, '105', '2020-10-28', 60, 'askk'),
+(29, 'PWR0006', 36, 5, 1, 4, '56777', '2020-10-21', 14, 'asknf;sa'),
+(30, 'PWR0006', 37, 3, 1, 4, '56777', '2020-10-21', 14, 'asknf;sa'),
+(31, 'PWR0007', 38, 4, 3, 4, '99', '2020-10-14', 80, 'taek'),
+(32, 'PWR0007', 39, 1, 3, 4, '99', '2020-10-14', 80, 'taek');
 
 -- --------------------------------------------------------
 
@@ -132,6 +217,27 @@ INSERT INTO `t_role` (`id_role`, `nama_role`) VALUES
 (3, 'Administrator'),
 (4, 'Pengelola');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_satuan`
+--
+
+CREATE TABLE `t_satuan` (
+  `id_satuan` int(11) NOT NULL,
+  `nama_satuan` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_satuan`
+--
+
+INSERT INTO `t_satuan` (`id_satuan`, `nama_satuan`) VALUES
+(1, 'UNIT'),
+(2, 'LEMBAR'),
+(4, 'INCHI'),
+(5, 'METER');
+
 --
 -- Indexes for dumped tables
 --
@@ -141,6 +247,18 @@ INSERT INTO `t_role` (`id_role`, `nama_role`) VALUES
 --
 ALTER TABLE `t_akun`
   ADD PRIMARY KEY (`id_akun`);
+
+--
+-- Indexes for table `t_barang`
+--
+ALTER TABLE `t_barang`
+  ADD PRIMARY KEY (`id_barang`);
+
+--
+-- Indexes for table `t_customer`
+--
+ALTER TABLE `t_customer`
+  ADD PRIMARY KEY (`id_customer`);
 
 --
 -- Indexes for table `t_kuitansi`
@@ -155,6 +273,12 @@ ALTER TABLE `t_penanggungjawab`
   ADD PRIMARY KEY (`id_pj`);
 
 --
+-- Indexes for table `t_penawaran`
+--
+ALTER TABLE `t_penawaran`
+  ADD PRIMARY KEY (`id_penawaran`);
+
+--
 -- Indexes for table `t_rekening`
 --
 ALTER TABLE `t_rekening`
@@ -167,6 +291,12 @@ ALTER TABLE `t_role`
   ADD PRIMARY KEY (`id_role`);
 
 --
+-- Indexes for table `t_satuan`
+--
+ALTER TABLE `t_satuan`
+  ADD PRIMARY KEY (`id_satuan`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -177,16 +307,34 @@ ALTER TABLE `t_akun`
   MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `t_barang`
+--
+ALTER TABLE `t_barang`
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `t_customer`
+--
+ALTER TABLE `t_customer`
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
 -- AUTO_INCREMENT for table `t_kuitansi`
 --
 ALTER TABLE `t_kuitansi`
-  MODIFY `id_kuitansi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_kuitansi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 
 --
 -- AUTO_INCREMENT for table `t_penanggungjawab`
 --
 ALTER TABLE `t_penanggungjawab`
-  MODIFY `id_pj` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pj` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `t_penawaran`
+--
+ALTER TABLE `t_penawaran`
+  MODIFY `id_penawaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `t_rekening`
@@ -199,6 +347,12 @@ ALTER TABLE `t_rekening`
 --
 ALTER TABLE `t_role`
   MODIFY `id_role` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT for table `t_satuan`
+--
+ALTER TABLE `t_satuan`
+  MODIFY `id_satuan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
