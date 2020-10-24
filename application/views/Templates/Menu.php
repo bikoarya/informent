@@ -36,7 +36,9 @@
     <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
       <div class="bg-white py-2 collapse-inner rounded">
         <h6 class="collapse-header">Sub Menu:</h6>
+        <a class="collapse-item" href="<?= site_url('Master/Satuan'); ?>">Satuan</a>
         <a class="collapse-item" href="<?= site_url('Master/Rekening'); ?>">Rekening</a>
+        <a class="collapse-item" href="<?= site_url('Master/Customer'); ?>">Customer</a>
         <a class="collapse-item" href="<?= site_url('Master/PenanggungJawab'); ?>">Penanggung Jawab</a>
       </div>
     </div>
@@ -45,7 +47,7 @@
 <!-- Nav Item - Tables -->
   <li class="nav-item">
     <a class="nav-link" href="<?= site_url('Penawaran'); ?>">
-    <i class="fas fa-search-dollar"></i>
+    <i class="fas fa-comments-dollar"></i>
       <span>Penawaran</span></a>
   </li>
   <li class="nav-item">

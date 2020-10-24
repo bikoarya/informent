@@ -20,12 +20,12 @@
         </div>
         <div class="content">
             <h4 class="terima">Telah terima dari &nbsp;&nbsp;&nbsp; : <?= $value['terima_dari']; ?></h4>
-            <h4 class="sejumlah">Uang sejumlah &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</h4>
+            <h4 class="sejumlah">Uang sejumlah &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= ucwords(($this->model->terbilang($value['jumlah_uang']))); ?> Rupiah</h4>
             <h4 class="untuk">Untuk Pembayaran &nbsp;: <?= $value['guna_pembayaran'] ?> </h4>
         </div>
         <div class="haer">
         <hr style="margin-bottom: 0; margin-top: 60px">
-        <h4 class="rupiah" style="font-weight: bold">Rp. <?= $value['jumlah_uang'] ?></h4>
+        <h4 class="rupiah" style="font-weight: bold">Rp. <?= number_format($value['jumlah_uang']); ?></h4>
         <hr style="">
         </div>
             <h4 class="time">Malang, <?= date('d-m-Y', strtotime($value['tanggal_kuitansi'])) ?></h4>

@@ -191,3 +191,241 @@ input:focus {
 @page {
 	margin: 17mm 10mm 0 15mm;
 }
+
+.textarea {
+	border: 1px solid #c5c5c5 !important;
+}
+
+.textarea:focus {
+	outline: none !important;
+	border: 1px solid red;
+}
+
+.pwr {
+	text-align: center;
+}
+
+/* 
+.line1 {
+	position: absolute;
+	height: 1px;
+	border: 1px solid black;
+	background-color: black;
+} */
+
+.linee {
+	position: absolute;
+}
+
+.inf-logo {
+	width: 300px;
+	margin-top: -50px;
+	margin-left: 20px;
+}
+
+.header2 {
+	margin-top: -20px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.kepada,
+.tertuju,
+.noPenawaran,
+.date,
+.periode,
+.hal {
+	font-weight: lighter;
+	font-size: 13px;
+}
+
+.kepada {
+	margin-bottom: 0;
+}
+
+.tertuju {
+	margin-left: 110px;
+	margin-top: -17px;
+	width: 220px;
+	margin-bottom: 0;
+}
+
+.noPenawaran,
+.date,
+.periode,
+.hal {
+	margin-left: 580px;
+	margin-top: -34px;
+}
+
+.noPenawaran {
+	margin-bottom: 0;
+}
+
+.date {
+	margin-top: 7px;
+	margin-bottom: 0;
+}
+
+.periode {
+	margin-top: 7px;
+	margin-bottom: 0;
+}
+
+.hal {
+	margin-top: 7px;
+	margin-bottom: 10px;
+}
+
+.tabel {
+	width: 100%;
+	margin-top: 0;
+	border-collapse: collapse;
+	padding: 0;
+	margin: 0;
+	margin: 0 20px 0 20px;
+}
+
+.no,
+.jenis,
+.spek,
+.uni,
+.qty,
+.harga,
+.total {
+	font-family: calibri;
+	font-weight: lighter;
+	font-size: 14px;
+	background-color: #F8BC27;
+	height: 35px;
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.no {
+	width: 40px;
+}
+
+.jenis {
+	width: 200px
+}
+
+.spek {
+	width: 400px;
+}
+
+.uni {
+	width: 60px;
+}
+
+.qty {
+	width: 45px;
+}
+
+.harga {
+	width: 100px;
+}
+
+.total {
+	border-right: 1px solid black;
+}
+
+.hargaPenawaran {
+	font-family: calibri;
+	font-weight: lighter;
+	font-size: 14px;
+	border: 1px solid black;
+	background-color: #0071c2;
+	color: white;
+}
+
+.noo,
+.jns,
+.spk,
+.satuan,
+.jml,
+.hrg,
+.tot {
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+	font-size: 14px;
+}
+
+.spk {
+	padding: 5px 5px;
+}
+
+.noo {
+	text-align: center;
+	padding: 10px 5px;
+	box-sizing: border-box;
+}
+
+.satuan {
+	text-align: center;
+}
+
+.jml,
+.hrg,
+.tot {
+	text-align: right;
+}
+
+.tot {
+	border-right: 1px solid black;
+}
+
+.tgl,
+.cv,
+.name {
+	font-weight: lighter;
+	font-family: calibri;
+	font-size: 13px;
+}
+
+.name {
+	font-weight: bold;
+	margin-top: 100px;
+}
+
+.footer {
+	margin-left: 780px;
+	margin-top: 15px;
+}
+
+.tgl {
+	margin-bottom: 0;
+}
+
+.cv {
+	margin-top: 3px;
+	margin-bottom: 0;
+}
+
+.alamat {
+	font-family: arial;
+	font-size: 13px;
+	font-weight: lighter;
+	margin-top: -20px;
+	color: gray;
+}
+
+.colspan {
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+	height: 30px;
+}
+
+.blank1,
+.blank2,
+.blank3 {
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+}
+
+.fulltotal {
+	border-left: 1px solid black;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	text-align: right;
+}

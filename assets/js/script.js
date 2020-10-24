@@ -8,6 +8,9 @@ jQuery.validator.addMethod("lettersonly", function (value, element) {
 	return this.optional(element) || /^[a-z]+$/i.test(value);
 }, "Harap masukkan karakter/huruf");
 
+$('#showCart').load(site_url + 'Penawaran/load');
+$("#grandTotal").load(site_url + "Penawaran/grandTotal");
+
 // Tambah Role
 $("#showRole").load(site_url + "Pengaturan/Role/viewRole");
 $("#simpanRole").click(function () {
@@ -916,8 +919,8 @@ $("#simpanKuitansi").click(function () {
 					$("#showKuitansi").html(data);
 					$("#addKuitansi").modal("hide");
 
-					window.location = "Kuitansi/Cetak";
-
+					window.location = "Kuitansi/Cetak/" + noKuitansi; 
+					
 				}
 			});
 		}
@@ -1017,7 +1020,7 @@ $("#simpanInvoice").click(function () {
 			},
 			qty: {
 				required: "Masukkan qty!",
-				number: "Masukkan angka!" 
+				number: "Masukkan angka!"
 			},
 			pjInvoice: {
 				required: "Masukkan penanggungjawab!"
@@ -1066,6 +1069,906 @@ $("#simpanInvoice").click(function () {
 					$("#addInvoice").modal("hide");
 
 					window.location = "Invoice/Cetak";
+				}
+			});
+		}
+	});
+});
+
+// Tambah Satuan
+$("#showSatuan").load(site_url + "Master/Satuan/viewSatuan");
+$("#simpanSatuan").click(function () {
+	$("#formSatuan").validate({
+		rules: {
+			namaSatuan: {
+				required: true
+			}
+		},
+		messages: {
+			namaSatuan: {
+				required: "Masukkan nama satuan!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let namaSatuan = $("#namaSatuan").val();
+			$.ajax({
+				url: site_url + "Master/Satuan/insert",
+				type: "POST",
+				data: {
+					namaSatuan: namaSatuan
+				},
+				success: function (data) {
+					$("#namaSatuan").val("");
+					$("#showSatuan").html(data);
+					$("#addSatuan").modal("hide");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil ditambahkan.',
+						'success'
+					)
+				}
+			});
+		}
+	});
+});
+
+// Kirim Value Edit Satuan
+$(document).on('click', '.editSatuan', function () {
+	var id_satuan = $(this).attr('data-id_satuan');
+	var editSatuan = $(this).attr('data-nama_satuan');
+
+	$("#id_satuan").val(id_satuan);
+	$("#editNamaSatuan").val(editSatuan);
+});
+
+// Update Satuan
+$("#editSatuan").click(function () {
+	$("#formEditSatuan").validate({
+		rules: {
+			editNamaSatuan: {
+				required: true
+			}
+		},
+		messages: {
+			editNamaSatuan: {
+				required: "Masukkan nama satuan!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let id_satuan = $("#id_satuan").val();
+			let editNamaSatuan = $("#editNamaSatuan").val();
+
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-primary',
+					cancelButton: 'btn btn-info mr-3'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah Anda Yakin?',
+				text: "Mengubah Data",
+				icon: 'question',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Ubah',
+				cancelButtonText: 'Batal',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.value) {
+
+					$.ajax({
+						type: "POST",
+						url: site_url + "Master/Satuan/update",
+						data: {
+							id_satuan: id_satuan,
+							editNamaSatuan: editNamaSatuan
+						},
+						success: function (data) {
+							$("#editNamaSatuan").val("");
+							$("#showSatuan").load(site_url + "Master/Satuan/viewSatuan");
+							$("#editSatuan").modal("hide");
+
+							Swal.fire(
+								'Berhasil!',
+								'Data berhasil diubah.',
+								'success'
+							)
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+// Hapus Satuan
+$("#showSatuan").on('click', '.hapusSatuan', function () {
+	var id_satuan = $(this).data("id_satuan");
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-primary',
+			cancelButton: 'btn btn-info mr-3'
+		},
+		buttonsStyling: false
+	});
+
+	swalWithBootstrapButtons.fire({
+		title: 'Apakah Anda Yakin?',
+		text: "Menghapus Data",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Ya, Hapus',
+		cancelButtonText: 'Batal',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.value) {
+
+			$.ajax({
+				type: "POST",
+				url: site_url + "Master/Satuan/delete",
+				data: {
+					id_satuan: id_satuan
+				},
+				success: function (data) {
+					$("#showSatuan").load(site_url + "Master/Satuan/viewSatuan");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil dihapus.',
+						'success'
+					)
+				}
+			});
+		}
+	});
+});
+
+// Tambah Barang
+$("#simpanBarang").click(function () {
+	$("#formBarang").validate({
+		rules: {
+			namaBarang: {
+				required: true
+			},
+			spesifikasi: {
+				required: true
+			},
+			satuan: {
+				required: true
+			},
+			bagian: {
+				required: true
+			},
+			harga: {
+				required: true
+			},
+			qty: {
+				required: true,
+				min: 1
+			}
+		},
+		messages: {
+			namaBarang: {
+				required: "Masukkan nama barang!"
+			},
+			spesifikasi: {
+				required: "Masukkan spesifikasi barang!"
+			},
+			satuan: {
+				required: "Masukkan satuan!"
+			},
+			bagian: {
+				required: "Masukkan bagian!"
+			},
+			harga: {
+				required: "Masukkan harga!"
+			},
+			qty: {
+				required: "Masukkan jumlah!",
+				min: "Masukkan minimal 1!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let kodePenawaran = $("#kodePenawaran").val();
+			let namaBarang = $("#namaBarang").val();
+			let spesifikasi = $("#spesifikasi").val();
+			let satuan = $("#satuan").val();
+			// let bagian = $("#bagian").val();
+			let harga = $("#harga").val();
+			let qty = $("#qty").val();
+			$.ajax({
+				url: site_url + "Penawaran/insert",
+				type: "POST",
+				data: {
+					kodePenawaran: kodePenawaran,
+					namaBarang: namaBarang,
+					spesifikasi: spesifikasi,
+					satuan: satuan,
+					// bagian: bagian,
+					harga: harga,
+					qty: qty
+				},
+				success: function (data) {
+					$("#namaBarang").val("");
+					$("#spesifikasi").val("");
+					$("#satuan").val("");
+					$("#bagian").val("");
+					$("#harga").val("");
+					$("#qty").val("");
+					$("#grandTotal").load(site_url + "Penawaran/grandTotal");
+					$("#showCart").html(data);
+					$("#addBarang").modal("hide");
+					
+					toastr.options = {
+						"closeButton": true,
+						"debug": false,
+						"newestOnTop": false,
+						"progressBar": true,
+						"positionClass": "toast-top-right",
+						"preventDuplicates": false,
+						"onclick": null,
+						"showDuration": "300",
+						"hideDuration": "1000",
+						"timeOut": "2000",
+						"extendedTimeOut": "1000",
+						"showEasing": "swing",
+						"hideEasing": "linear",
+						"showMethod": "fadeIn",
+						"hideMethod": "fadeOut"
+					}
+					toastr["success"]("Data berhasil ditambahkan!")
+				}
+			});
+		}
+	});
+});
+
+// Hapus Cart
+$("#showCart").on('click', '.hapusCart', function () {
+	var rowid = $(this).data("id_cart");
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-primary',
+			cancelButton: 'btn btn-info mr-3'
+		},
+		buttonsStyling: false
+	});
+
+	swalWithBootstrapButtons.fire({
+		title: 'Apakah Anda Yakin?',
+		text: "Menghapus Data",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Ya, Hapus',
+		cancelButtonText: 'Batal',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.value) {
+
+			$.ajax({
+				type: "POST",
+				url: site_url + "Penawaran/Delete",
+				data: {
+					rowid: rowid
+				},
+				success: function (data) {
+					$("#showCart").html(data);
+					$("#grandTotal").load(site_url + "Penawaran/grandTotal");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil dihapus.',
+						'success'
+					)
+				}
+			});
+		}
+	});
+});
+
+$(document).on('click', '.barang', function () {
+	var kodePenawaran = $("#kodePenawaran").val();
+	var id_barang = $(this).data('id_barang');
+	var nama_barang = $(this).data('nama_barang');
+	var spek = $(this).data('spesifikasi');
+	var satuann = $(this).data('satuan');
+	var bagiann = $(this).data('bagian');
+	var hargaa = $(this).data('harga');
+
+	$("#id_barang").val(id_barang);
+
+	$.ajax({
+		url: base_url + 'Penawaran/Search',
+		type: 'POST',
+		data: {
+			kodePenawaran: kodePenawaran,
+			id_barang: id_barang,
+			nama_barang: nama_barang,
+			spek: spek,
+			satuann: satuann,
+			bagiann: bagiann,
+			hargaa: hargaa
+		},
+		success: function (data) {
+			$('#showCart').html(data);
+			$("#grandTotal").load(site_url + "Penawaran/grandTotal");
+			$("#cariBarang").modal('hide');
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": true,
+				"positionClass": "toast-top-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": "300",
+				"hideDuration": "1000",
+				"timeOut": "2000",
+				"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			}
+			toastr["success"]("Data berhasil ditambahkan!")
+		}
+	});
+});
+
+// Tambah Customer
+$("#showCustomer").load(site_url + "Master/Customer/viewCustomer");
+$("#simpanCustomer").click(function () {
+	$("#formCustomer").validate({
+		rules: {
+			namaCustomer: {
+				required: true
+			},
+			alamat: {
+				required: true
+			},
+			noHp: {
+				required: true,
+				number: true,
+				minlength: 10,
+				maxlength: 13
+			}
+		},
+		messages: {
+			namaCustomer: {
+				required: "Masukkan nama lengkap!"
+			},
+			alamat: {
+				required: "Masukan alamat!"
+			},
+			noHp: {
+				required: "Masukan nomor handphone!",
+				number: "Harap masukkan angka!",
+				minlength: "Masukan minimal 10 digit",
+				maxlength: "Masukan maksimal 13 digit"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let namaCustomer = $("#namaCustomer").val();
+			let alamat = $("#alamat").val();
+			let noHp = $("#noHp").val();
+			$.ajax({
+				url: site_url + "Master/Customer/insert",
+				type: "POST",
+				data: {
+					namaCustomer: namaCustomer,
+					alamat: alamat,
+					noHp: noHp
+				},
+				success: function (data) {
+					$("#namaCustomer").val("");
+					$("#alamat").val("");
+					$("#noHp").val("");
+					$("#showCustomer").html(data);
+					$("#addCustomer").modal("hide");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil ditambahkan.',
+						'success'
+					)
+				}
+			});
+		}
+	});
+});
+
+// Tambah Customer Penawaran
+// $("#showCustomer").load(site_url + "Master/Customer/viewCustomer");
+$("#simpanCust").click(function () {
+	$("#formCust").validate({
+		rules: {
+			namaCust: {
+				required: true
+			},
+			alamatCust: {
+				required: true
+			},
+			hpCust: {
+				required: true,
+				number: true,
+				minlength: 10,
+				maxlength: 13
+			}
+		},
+		messages: {
+			namaCust: {
+				required: "Masukkan nama lengkap!"
+			},
+			alamatCust: {
+				required: "Masukan alamat!"
+			},
+			hpCust: {
+				required: "Masukan nomor handphone!",
+				number: "Harap masukkan angka!",
+				minlength: "Masukan minimal 10 digit",
+				maxlength: "Masukan maksimal 13 digit"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let namaCust = $("#namaCust").val();
+			let alamatCust = $("#alamatCust").val();
+			let hpCust = $("#hpCust").val();
+			$.ajax({
+				url: site_url + "Master/Customer/newCust",
+				type: "POST",
+				data: {
+					namaCust: namaCust,
+					alamatCust: alamatCust,
+					hpCust: hpCust
+				},
+				success: function (data) {
+					window.location.reload();
+					$("#namaCust").val("");
+					$("#alamatCust").val("");
+					$("#hpCust").val("");
+					$("#modalCustomer").modal("hide");
+				}
+			});
+		}
+	});
+});
+
+// Kirim Value Edit Customer
+$(document).on('click', '.editCustomer', function () {
+	var id_customer = $(this).attr('data-id_customer');
+	var editNamaCustomer = $(this).attr('data-nama_customer');
+	var editAlamat = $(this).attr('data-alamat');
+	var editNoHp = $(this).attr('data-no_hp');
+
+	$("#id_customer").val(id_customer);
+	$("#editNamaCustomer").val(editNamaCustomer);
+	$("#editAlamat").val(editAlamat);
+	$("#editNoHp").val(editNoHp);
+});
+
+// Update Customer
+$("#editCustomer").click(function () {
+	$("#formEditCustomer").validate({
+		rules: {
+			editNamaCustomer: {
+				required: true
+			},
+			editAlamat: {
+				required: true
+			},
+			editNoHp: {
+				required: true,
+				number: true,
+				minlength: 10,
+				maxlength: 13
+			}
+		},
+		messages: {
+			editNamaCustomer: {
+				required: "Masukkan nama lengkap!"
+			},
+			editAlamat: {
+				required: "Masukkan alamat!"
+			},
+			editNoHp: {
+				required: "Masukkan nomor handphone!",
+				number: "Harap masukkan angka!",
+				minlength: "Masukan minimal 10 digit",
+				maxlength: "Masukan maksimal 13 digit"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let id_customer = $("#id_customer").val();
+			let editNamaCustomer = $("#editNamaCustomer").val();
+			let editAlamat = $("#editAlamat").val();
+			let editNoHp = $("#editNoHp").val();
+
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-primary',
+					cancelButton: 'btn btn-info mr-3'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah Anda Yakin?',
+				text: "Mengubah Data",
+				icon: 'question',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Ubah',
+				cancelButtonText: 'Batal',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.value) {
+
+					$.ajax({
+						type: "POST",
+						url: site_url + "Master/Customer/Update",
+						data: {
+							id_customer: id_customer,
+							editNamaCustomer: editNamaCustomer,
+							editAlamat: editAlamat,
+							editNoHp: editNoHp
+						},
+						success: function (data) {
+							$("#editNamaCustomer").val("");
+							$("#editAlamat").val("");
+							$("#editNoHp").val("");
+							$("#showCustomer").load(site_url + "Master/Customer/viewCustomer");
+							$("#editCustomer").modal("hide");
+
+							Swal.fire(
+								'Berhasil!',
+								'Data berhasil diubah.',
+								'success'
+							)
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+// Hapus Customer
+$("#showCustomer").on('click', '.hapusCustomer', function () {
+	var id_customer = $(this).data("id_customer");
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-primary',
+			cancelButton: 'btn btn-info mr-3'
+		},
+		buttonsStyling: false
+	});
+
+	swalWithBootstrapButtons.fire({
+		title: 'Apakah Anda Yakin?',
+		text: "Menghapus Data",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Ya, Hapus',
+		cancelButtonText: 'Batal',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.value) {
+
+			$.ajax({
+				type: "POST",
+				url: site_url + "Master/Customer/Delete",
+				data: {
+					id_customer: id_customer
+				},
+				success: function (data) {
+					$("#showCustomer").load(site_url + "Master/Customer/viewCustomer");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil dihapus.',
+						'success'
+					)
+				}
+			});
+		}
+	});
+});
+
+// Kirim Value Edit Kuitansi
+$(document).on('click', '.editKuitansi', function () {
+	var id_kuitansi = $(this).attr('data-id_kuitansi');
+	var no_kuitansi = $(this).attr('data-no_kuitansi');
+	var tanggal_kuitansi = $(this).attr('data-tanggal_kuitansi');
+	var jumlah_uang = $(this).attr('data-jumlah_uang');
+	var guna_pembayaran = $(this).attr('data-guna_pembayaran');
+	var terima_dari = $(this).attr('data-terima_dari');
+	var id_pj = $(this).attr('data-id_pj');
+
+	$("#id_kuitansi").val(id_kuitansi);
+	$("#editNoKuitansi").val(no_kuitansi);
+	$("#editTglKuitansi").val(tanggal_kuitansi);
+	$("#editJumlahUang").val(jumlah_uang);
+	$("#editGunaPembayaran").val(guna_pembayaran);
+	$("#editTerimaDari").val(terima_dari);
+	$("#editPjKuitansi")
+		.val(id_pj)
+		.trigger("change");
+});
+
+// Update Kuitansi
+$("#editKuitansi").click(function () {
+	$("#formEditKuitansi").validate({
+		rules: {
+			editNoKuitansi: {
+				required: true
+			},
+			editTglKuitansi: {
+				required: true
+			},
+			editJumlahUang: {
+				required: true,
+				number: true
+			},
+			editGunaPembayaran: {
+				required: true
+			},
+			editTerimaDari: {
+				required: true
+			},
+			editPjKuitansi: {
+				required: true
+			}
+		},
+		messages: {
+			editNoKuitansi: {
+				required: "Masukkan nomor kuitansi!"
+			},
+			editTglKuitansi: {
+				required: "Masukkan tanggal!"
+			},
+			editJumlahUang: {
+				required: "Masukkan jumlah uang!",
+				number: "Harap masukkan angka!"
+			},
+			editGunaPembayaran: {
+				required: "Masukkan guna pembayaran!"
+			},
+			editTerimaDari: {
+				required: "Masukkan terima dari!"
+			},
+			editPjKuitansi: {
+				required: "Masukkan penanggung jawab!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let id_kuitansi = $("#id_kuitansi").val();
+			let editNoKuitansi = $("#editNoKuitansi").val();
+			let editTglKuitansi = $("#editTglKuitansi").val();
+			let editJumlahUang = $("#editJumlahUang").val();
+			let editGunaPembayaran = $("#editGunaPembayaran").val();
+			let editTerimaDari = $("#editTerimaDari").val();
+			let editPjKuitansi = $("#editPjKuitansi").val();
+
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-primary',
+					cancelButton: 'btn btn-info mr-3'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah Anda Yakin?',
+				text: "Mengubah Data",
+				icon: 'question',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Ubah',
+				cancelButtonText: 'Batal',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.value) {
+
+					$.ajax({
+						type: "POST",
+						url: site_url + "Kuitansi/Update",
+						data: {
+							id_kuitansi: id_kuitansi,
+							editNoKuitansi: editNoKuitansi,
+							editTglKuitansi: editTglKuitansi,
+							editJumlahUang: editJumlahUang,
+							editGunaPembayaran: editGunaPembayaran,
+							editTerimaDari: editTerimaDari,
+							editPjKuitansi: editPjKuitansi
+						},
+						success: function (data) {
+							$("#editNoKuitansi").val("");
+							$("#editTglKuitansi").val("");
+							$("#editJumlahUang").val("");
+							$("#editGunaPembayaran").val("");
+							$("#editTerimaDari").val("");
+							$("#editPjKuitansi").val("").trigger("change");
+							$("#showKuitansi").load(site_url + "Kuitansi/viewKuitansi");
+							$("#editKuitansi").modal("hide");
+
+							Swal.fire(
+								'Berhasil!',
+								'Data berhasil diubah.',
+								'success'
+							)
+						}
+					});
+				}
+			});
+		}
+	});
+});
+
+// Cetak Penawaran
+// $("#showRole").load(site_url + "Pengaturan/Role/viewRole");
+$("#cetakPenawaran").click(function () {
+	$("#formPenawaran").validate({
+		rules: {
+			customerPenawaran: {
+				required: true
+			},
+			noPenawaran: {
+				required: true
+			},
+			tglPenawaran: {
+				required: true
+			},
+			periode: {
+				required: true,
+				number: true
+			},
+			hal: {
+				required: true
+			},
+			pjPenawaran: {
+				required: true
+			}
+		},
+		messages: {
+			customerPenawaran: {
+				required: ""
+			},
+			noPenawaran: {
+				required: ""
+			},
+			tglPenawaran: {
+				required: ""
+			},
+			periode: {
+				required: "",
+				number: "Masukkan angka!"
+			},
+			hal: {
+				required: ""
+			},
+			pjPenawaran: {
+				required: ""
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let kodePenawaran = $("#kodePenawaran").val();
+			let id_barang = $("#id_barang").val();
+			let customerPenawaran = $("#customerPenawaran").val();
+			let noPenawaran = $("#noPenawaran").val();
+			let tglPenawaran = $("#tglPenawaran").val();
+			let periode = $("#periode").val();
+			let hal = $("#hal").val();
+			let pjPenawaran = $("#pjPenawaran").val();
+			$.ajax({
+				url: site_url + "Penawaran/Simpan",
+				type: "POST",
+				data: {
+					kodePenawaran: kodePenawaran,
+					id_barang: id_barang,
+					customerPenawaran: customerPenawaran,
+					noPenawaran: noPenawaran,
+					tglPenawaran: tglPenawaran,
+					periode: periode,
+					hal: hal,
+					pjPenawaran: pjPenawaran
+				},
+				success: function (data) {
+					window.location = 'Penawaran/Cetak/' + kodePenawaran;
+					$("#customerPenawaran").val("");
+					$("#noPenawaran").val("");
+					$("#periode").val("");
+					$("#hal").val("");
+					$("#pjPenawaran").val("");
+					$("#showRole").html(data);
+					$("#addRole").modal("hide");
 				}
 			});
 		}

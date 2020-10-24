@@ -63,6 +63,11 @@
   <script defer src="<?= base_url('assets/js/custom.js'); ?>"></script>
 
   <script>
+  $("#customerPenawaran").change(function () {
+	if ($(this).val() == "newCustomer") {
+		$('#modalCustomer').modal('show');
+	}
+});
     document.onreadystatechange = function() { 
             if (document.readyState !== "complete") { 
                 document.querySelector( 
@@ -75,7 +80,32 @@
                 document.querySelector( 
                   "body").style.visibility = "visible"; 
             } 
-        };
+        };   
+        
+        var rp = document.getElementById('jumlahUang');
+rp.addEventListener('keyup', function (e) {
+	// tambahkan 'Rp.' pada saat form di ketik
+	// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+	rp.value = formatRupiah(this.value, 'Rp. ');
+});
+
+/* Fungsi formatRupiah */
+function formatRupiah(angka, prefix) {
+	var number_string = angka.replace(/[^,\d]/g, '').toString(),
+		split = number_string.split(','),
+		sisa = split[0].length % 3,
+		rp = split[0].substr(0, sisa),
+		ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+	// tambahkan titik jika yang di input sudah menjadi angka ribuan
+	if (ribuan) {
+		separator = sisa ? '.' : '';
+		rp += separator + ribuan.join('.');
+	}
+
+	rp = split[1] != undefined ? rp + ',' + split[1] : rp;
+	return prefix == undefined ? rp : (rp ? 'Rp. ' + rp : '');
+}
   </script>
 
 </body>
