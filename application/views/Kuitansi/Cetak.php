@@ -28,7 +28,7 @@
         <h4 class="rupiah" style="font-weight: bold">Rp. <?= number_format($value['jumlah_uang']); ?></h4>
         <hr style="">
         </div>
-            <h4 class="time">Malang, <?= date('d-m-Y', strtotime($value['tanggal_kuitansi'])) ?></h4>
+            <h4 class="time">Malang, <?= date('d M Y', strtotime($value['tanggal_kuitansi'])) ?></h4>
             <h4 class="pj"><?= $value['nama_pj']; ?>
     </div>
 </body>

@@ -49,7 +49,7 @@
         </div>
         <div class="form-group">
         <label for="tglKuitansi">Tanggal</label>
-        <input type="text" class="form-control tglKuitansi w-50" data-date-format="dd/mm/yy" name="tglKuitansi" id="tglKuitansi" autocomplete="off" placeholder="Masukan tanggal">
+        <input type="text" class="form-control tglKuitansi w-50" data-date-format="dd M yyyy" name="tglKuitansi" id="tglKuitansi" autocomplete="off" placeholder="Masukan tanggal">
         </div>
         <div class="form-group">
         <label for="jumlahUang">Jumlah Uang</label>
@@ -97,11 +97,11 @@
         <div class="form-group">
         <input type="hidden" name="id_kuitansi" id="id_kuitansi" placeholder="Id Kuitansi">
         <label for="editNoKuitansi">No. Kuitansi</label>
-        <input type="text" class="form-control w-50" name="editNoKuitansi" id="editNoKuitansi" autocomplete="off" placeholder="Masukan nomor kuitansi">
+        <input type="text" class="form-control w-50" readonly name="editNoKuitansi" id="editNoKuitansi" autocomplete="off" placeholder="Masukan nomor kuitansi">
         </div>
         <div class="form-group">
         <label for="editTglKuitansi">Tanggal</label>
-        <input type="text" class="form-control editTglKuitansi w-50" name="editTglKuitansi" id="editTglKuitansi" autocomplete="off" placeholder="Masukan tanggal">
+        <input type="text" class="form-control editTglKuitansi w-50" data-date-format="dd M yyyy" name="editTglKuitansi" id="editTglKuitansi" autocomplete="off" placeholder="Masukan tanggal">
         </div>
         <div class="form-group">
         <label for="editJumlahUang">Jumlah Uang</label>

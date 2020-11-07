@@ -82,7 +82,7 @@
             } 
         };   
         
-        var rp = document.getElementById('jumlahUang');
+var rp = document.getElementById('jumlahUang');
 rp.addEventListener('keyup', function (e) {
 	// tambahkan 'Rp.' pada saat form di ketik
 	// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka

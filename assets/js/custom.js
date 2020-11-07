@@ -35,6 +35,26 @@ $(document).ready(function () {
 		allowClear: false,
 		theme: 'bootstrap4'
 	});
+	$('.custInvoice').select2({
+		placeholder: "Pilih Customer",
+		allowClear: false,
+		theme: 'bootstrap4'
+	});
+	$('.bank').select2({
+		placeholder: "Pilih Bank",
+		allowClear: false,
+		theme: 'bootstrap4'
+	});
+	$('.pjInvoice').select2({
+		placeholder: "Pilih Penanggung Jawab",
+		allowClear: false,
+		theme: 'bootstrap4'
+	});
+	$('.satuanInv').select2({
+		placeholder: "Pilih Satuan",
+		allowClear: false,
+		theme: 'bootstrap4'
+	});
 
 	// Date Picker
 	$("#tglKuitansi").datepicker({
@@ -43,10 +63,14 @@ $(document).ready(function () {
 		useCurrent: false
 	});
 	$("#editTglKuitansi").datepicker({
-		dateFormat: "yy-mm-dd",
+		dateFormat: "dd-mm-yy",
 		autoclose: true
 	});
 	$("#tglPenawaran").datepicker({
+		dateFormat: "yy-mm-dd",
+		autoclose: true
+	});
+	$("#tglInvoice").datepicker({
 		dateFormat: "yy-mm-dd",
 		autoclose: true
 	});

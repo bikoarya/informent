@@ -1,10 +1,71 @@
 <div class="container-fluid">
 <div class="card" style="border-top: 5px solid #4E73DF;">
-  <div class="card-body">
-    <h4 class="card-title">Invoice</h4>
-      <button type="button" class="btn btn-primary mt-3 mb-4" data-toggle="modal" data-target="#addKuitansi">
+  <div class="card-body" id="inv">
+  <h4 class="card-title">Invoice</h4>
+  <?= $this->session->flashdata('msg'); ?>
+    <div class="containerz mt-4">
+      <form id="formInvoice">
+      <div class="row">
+        <div class="col-6">
+        <input type="hidden" name="id_brg" id="id_brg">
+        <input type="hidden" name="kode_invoice" id="kode_invoice" value="<?= $this->model->kode_invoice(); ?>">
+        <div class="form-group row">
+              <label for="noInvoice" class="col-md-4 col-form-label">No. Invoice &emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;: </label>
+              <div class="col-md-8">
+                <input type="text" class="form-control" autocomplete="off" name="noInvoice" id="noInvoice" placeholder="Masukan nomor invoice" style="width: 270px">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="hal" class="col-md-4 col-form-label">Customer &emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;: </label>
+              <div class="col-md-8">
+              <select class="form-control custInvoice" name="custInvoice" id="custInvoice" autocomplete="off" style="width: 270px;">
+ 					      <option value=""></option>
+                 <?php foreach ($customer as $cust) : ?>
+ 							<option value="<?= $cust['id_customer']; ?>"><?= $cust['nama_customer']; ?></option>
+ 						<?php endforeach; ?>
+ 				      </select>
+              </div>
+              </div>
+        </div>
+        <div class="col-6">
+        <div class="form-group row">
+              <label for="tglInvoice" class="col-md-5 col-form-label">Tanggal &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </label>
+              <div class="col-md-7">
+                <input type="text" class="form-control" data-date-format="dd M yyyy" autocomplete="off" name="tglInvoice" id="tglInvoice" placeholder="Masukan tanggal" style="width: 200px">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="bankInvoice" class="col-md-5 col-form-label">Bank &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </label>
+              <div class="col-md-7">
+              <select class="form-control bank" name="bankInvoice" id="bankInvoice" autocomplete="off" style="width: 270px;">
+ 					      <option value=""></option>
+                 <?php foreach ($bank as $bnk) : ?>
+ 							<option value="<?= $bnk['id_rekening']; ?>"><?= $bnk['nama_bank']; ?></option>
+ 						<?php endforeach; ?>
+ 				      </select>
+              </div>
+              </div>
+        <div class="form-group row">
+              <label for="pjInvoice" class="col-md-5 col-form-label">Penanggung Jawab &emsp;&emsp;&nbsp;&nbsp;: </label>
+              <div class="col-md-7">
+              <select class="form-control pjInvoice" name="pjInvoice" id="pjInvoice" autocomplete="off" style="width: 270px;">
+ 					      <option value=""></option>
+                 <?php foreach ($pjs as $pj) : ?>
+ 							<option value="<?= $pj['id_pj']; ?>"><?= $pj['nama_pj']; ?></option>
+ 						<?php endforeach; ?>
+ 				      </select>
+              </div>
+              </div>
+        </div>
+      </div>
+    </div>
+      <button type="button" class="btn btn-primary mt-3 mb-4 mr-2" data-toggle="modal" data-target="#addInvoice">
       <i class="fas fa-plus-square"></i>
-        Cetak Invoice
+        Tambah Barang
+      </button>
+      <button type="button" class="btn btn-info mt-3 mb-4" data-toggle="modal" data-target="#cariBrg">
+      <i class="fas fa-search"></i>
+        Cari Barang
       </button>
 
         <div class="table-responsive">
@@ -12,72 +73,120 @@
             <thead>
               <tr>
                 <th>No</th>
-                <th>Nomor Kuitansi</th>
-                <th>Tanggal</th>
-                <th>Jumlah Uang</th>
-                <th>Guna Pembayaran</th>
-                <th>Terima Dari</th>
-                <th>Penanggung Jawab</th>
+                <th>Nama Barang</th>
+                <th>Deskripsi</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
                 <th>Aksi</th>
               </tr>
             </thead>
-            <tbody id="showInvoice">
+            <tbody id="showCartInvoice">
 
             </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="6" class="text-center">TOTAL</th>
+                <th id="totalInv"></th>
+              </tr>
+            </tfoot>
         </table>
         </div>
+        <div class="invc mt-2 text-center">
+        <button class="btn btn-primary" id="cetakInvoice"><i class="fas fa-print"></i> Cetak</button>
+        </div>
+        </form>
   </div>
 </div>
 </div>
 
-<!-- Modal Tambah Kuitansi -->
-<div class="modal fade" id="addKuitansi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<!-- Modal tambah barang -->
+<div class="modal fade" id="addInvoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Cetak Kuitansi</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Tambah Barang</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <form id="formKuitansi">
+        <form id="formBrg">
         <div class="form-group">
-        <input type="hidden" name="kodeKuitansi" id="kodeKuitansi" placeholder="Kode Kuitansi" value="<?= $this->model->kode_kuitansi(); ?>">
-        <label for="noKuitansi">No. Kuitansi</label>
-        <input type="text" class="form-control" name="noKuitansi" id="noKuitansi" autocomplete="off" placeholder="Masukan nomor kuitansi">
+        <label for="namaBrg">Nama Barang</label>
+        <input type="text" class="form-control" name="namaBrg" id="namaBrg" autocomplete="off" placeholder="Masukan nama barang">
         </div>
         <div class="form-group">
-        <label for="tglKuitansi">Tanggal</label>
-        <input type="text" class="form-control tglKuitansi" name="tglKuitansi" id="tglKuitansi" autocomplete="off" placeholder="Masukan tanggal">
+        <label for="deskripsi">Deskripsi</label>
+        <textarea name="deskripsi" id="deskripsi" cols="50" rows="3" style="border: 1px solid gray" class="textarea"></textarea>
         </div>
         <div class="form-group">
-        <label for="jumlahUang">Jumlah Uang</label>
-        <input type="text" class="form-control" name="jumlahUang" id="jumlahUang" autocomplete="off" placeholder="(Rp.) Masukan jumlah uang">
-        </div>
-        <div class="form-group">
-        <label for="gunaPembayaran">Guna Pembayaran</label>
-        <input type="text" class="form-control" name="gunaPembayaran" id="gunaPembayaran" autocomplete="off" placeholder="Masukan guna pembayaran">
-        </div>
-        <div class="form-group">
-        <label for="terimaDari">Telah Terima Dari</label>
-        <input type="text" class="form-control" name="terimaDari" id="terimaDari" autocomplete="off" placeholder="Masukan telah menerima dari">
-        </div>
-        <div class="form-group">
-        <label for="pjKuitansi">Penanggung Jawab</label>
- 				<select class="form-control pjKuitansi" name="pjKuitansi" id="pjKuitansi" autocomplete="off" style="width: 100%;">
+        <label for="satuanInv">Satuan</label>
+        <select class="form-control satuanInv" name="satuanInv" id="satuanInv" autocomplete="off" style="width: 100%;">
  					<option value=""></option>
- 						<?php foreach ($penanggungjawab as $pj) : ?>
- 							<option value="<?= $pj['id_pj']; ?>"><?= $pj['nama_pj']; ?></option>
+ 						<?php foreach ($satuan as $stn) : ?>
+ 							<option value="<?= $stn['nama_satuan']; ?>"><?= $stn['nama_satuan']; ?></option>
  						<?php endforeach; ?>
  				</select>
+        </div>
+        <div class="form-group">
+        <label for="hargaInv">Harga</label>
+        <input type="text" class="form-control" name="hargaInv" id="hargaInv" autocomplete="off" placeholder="(Rp.) Masukan harga">
+        </div>
+        <div class="form-group w-50">
+        <label for="qtyInv">Jumlah</label>
+        <input type="number" class="form-control" name="qtyInv" id="qtyInv" autocomplete="off" placeholder="Masukan jumlah">
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-info" data-dismiss="modal">Batal</button>
-        <button type="submit" class="btn btn-primary" id="simpanKuitansi">Cetak</button>
+        <button type="submit" class="btn btn-primary" id="simpanBrg">Simpan</button>
       </div>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Cari Barang -->
+<div class="modal fade" id="cariBrg" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-search"></i> Cari Barang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <div class="table-responsive">
+        <table class="table table-hover mt-4" width="100%" cellspacing="0">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Nama Barang</th>
+								<th>Spesifikasi</th>
+								<th>Satuan</th>
+								<th>Harga</th>
+								<th>Aksi</th>
+							</tr>
+						</thead>
+						<tbody>
+              <?php foreach ($barang as $key => $brg) : 
+                $grand_total = $brg['harga']  * $brg['qty']; ?>
+              <tr>
+                <td><?= $key + 1 ?></td>
+                <td><?= $brg['nama_barang']; ?></td>
+                <td><?= $brg['spesifikasi']; ?></td>
+                <td><?= $brg['nama_satuan']; ?></td>
+                <td>Rp. <?= number_format($brg['harga']); ?></td>
+                <!-- <td><?= $brg['qty']; ?></td> -->
+                <!-- <td><?= number_format($grand_total); ?></td> -->
+                <td><a href="javascript:void(0);"><i class="far fa-plus-square addBrg" data-id_brg="<?= $brg['id_barang'] ?>" data-nama_brg="<?= $brg['nama_barang'] ?>" data-deskripsi="<?= $brg['spesifikasi'] ?>" data-stn="<?= $brg['nama_satuan'] ?>" data-hrg="<?= $brg['harga'] ?>" data-qtyi="<?= $brg['qty'] ?>" data-placement="bottom" title="Tambah" style="font-size: 22px"></i></a></td>
+              </tr>
+              <?php endforeach; ?>
+						</tbody>
+					</table>
+        </div>
     </div>
   </div>
 </div>

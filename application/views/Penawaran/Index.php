@@ -1,7 +1,8 @@
 <div class="container-fluid">
 <div class="card" style="border-top: 5px solid #4E73DF;">
-  <div class="card-body">
+  <div class="card-body" id="pwrrr">
     <h4 class="card-title">Penawaran</h4>
+    <?= $this->session->flashdata('msg'); ?>
       <div class="head mt-4">
         <form id="formPenawaran">
           <div class="row mb-5">
@@ -33,7 +34,7 @@
             <div class="form-group row">
               <label for="tglPenawaran" class="col-md-4 col-form-label">Tanggal &emsp;&emsp;&emsp;&emsp;&emsp; : </label>
               <div class="col-md-8">
-                <input type="text" class="form-control" data-date-format="dd-mm-yyyy" autocomplete="off" name="tglPenawaran" id="tglPenawaran" placeholder="Masukan tanggal" style="width: 200px" value="<?= $this->session->userdata('date'); ?>">
+                <input type="text" class="form-control" data-date-format="dd M yyyy" autocomplete="off" name="tglPenawaran" id="tglPenawaran" placeholder="Masukan tanggal" style="width: 200px" value="<?= $this->session->userdata('date'); ?>">
               </div>
             </div>
             </div>
@@ -86,7 +87,6 @@
 								<th>Nama Barang</th>
 								<th>Spesifikasi</th>
 								<th>Satuan</th>
-								<!-- <th>Bagian</th> -->
 								<th>Harga</th>
 								<th>Jumlah</th>
 								<th>Total</th>
@@ -94,6 +94,7 @@
 							</tr>
 						</thead>
 						<tbody id="showCart">
+            
 						</tbody>
             <tfoot>
               <tr>
@@ -141,10 +142,6 @@
  						<?php endforeach; ?>
  				</select>
         </div>
-        <!-- <div class="form-group">
-        <label for="bagian">Bagian</label>
-        <input type="text" class="form-control" name="bagian" id="bagian" autocomplete="off" placeholder="Masukan bagian">
-        </div> -->
         <div class="form-group">
         <label for="harga">Harga</label>
         <input type="text" class="form-control" name="harga" id="harga" autocomplete="off" placeholder="(Rp.) Masukan harga">
@@ -202,7 +199,7 @@
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Cari Barang</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle"><i class="fas fa-search"></i> Cari Barang</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -216,10 +213,7 @@
 								<th>Nama Barang</th>
 								<th>Spesifikasi</th>
 								<th>Satuan</th>
-								<!-- <th>Bagian</th> -->
 								<th>Harga</th>
-								<!-- <th>Jumlah</th> -->
-								<!-- <th>Total</th> -->
 								<th>Aksi</th>
 							</tr>
 						</thead>

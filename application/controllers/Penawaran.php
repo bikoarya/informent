@@ -41,13 +41,12 @@ class Penawaran extends CI_Controller {
 		$harga 			= str_replace(".", "", $fprice);
 
 		$cart = [
-			'id' 			=> $this->model->createKode(),
+			'id' 			=> $this->model->id_barang(),
 			'name' 			=> $namaBarang,
 			'price' 		=> $harga,
 			'qty' 			=> $qty,
 			'spesifikasi' 	=> $spesifikasi,
-			'satuan' 		=> $satuan,
-			// 'bagian' 		=> $bagian
+			'satuan' 		=> $satuan
 		];
 
 		$kode_penawaran = $this->model->kodePenawaran();
@@ -64,10 +63,10 @@ class Penawaran extends CI_Controller {
 		$this->session->set_userdata($session);
 
 		$data = [
+			'id_barang'		=> $this->model->id_barang(),
 			'nama_barang' 	=> $namaBarang,
 			'spesifikasi' 	=> $spesifikasi,
 			'nama_satuan' 	=> $satuan,
-			// 'bagian' 		=> $bagian,
 			'qty' 			=> $qty,
 			'harga' 		=> $harga
 		];
@@ -145,8 +144,7 @@ class Penawaran extends CI_Controller {
 			'price' => $harga,
 			'qty' => 1,
 			'spesifikasi' => $spesifikasi,
-			'satuan' => $satuan,
-			'bagian' => $bagiann
+			'satuan' => $satuan
 		];
 
 		$session = [
@@ -172,28 +170,43 @@ class Penawaran extends CI_Controller {
 		$hal = htmlspecialchars($this->input->post('hal'));
 		$pj = htmlspecialchars($this->input->post('pjPenawaran'));
 
-		foreach ($this->cart->contents() as $items) {
-				$insert = [
-					'kode_penawaran' => $this->session->userdata('kode_penawaran'),
-					'id_barang' => $items['id'],
-					'qty_penawaran' => $items['qty'],
-					'id_customer' => $customer,
-					'id_pj' => $pj,
-					'no_penawaran' => $nomor,
-					'date' => $date,
-					'periode' => $periode,
-					'hal' => $hal
-				];
-				if ($insert != null) {
-					$this->model->insert('t_penawaran', $insert);
-				}else{
-					echo '<script>alert("Masih Ada Data Kosong")</script>';
-				}
+		$rows = count($this->cart->contents());
+		if ($rows == 0) {
+			$data = 'empty!';
+			$message = "Cart empty!";
+			echo "<script type='text/javascript'>alert('$message');</script>";
+		}else {
+			foreach ($this->cart->contents() as $items) {
+					$insert = [
+						'kode_penawaran' => $this->session->userdata('kode_penawaran'),
+						'id_barang' => $items['id'],
+						'qty_penawaran' => $items['qty'],
+						'id_customer' => $customer,
+						'id_pj' => $pj,
+						'no_penawaran' => $nomor,
+						'date' => $date,
+						'periode' => $periode,
+						'hal' => $hal
+					];
+					$insert = $this->model->insert('t_penawaran', $insert);
+			}
 		}
+
 	}
 
 	public function Cetak($id)
 	{
+		$rows = count($this->cart->contents());
+		if ($rows == 0) {
+			$this->session->set_flashdata('msg', '<div class="alert alert-danger alert-dismissible fade show" id="pesanku" role="alert">
+                    <b>Cart Empty!</b>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>');
+				redirect('Penawaran');
+		}
+		// var_dump($message);die;
 		$this->cart->destroy();
 		$unset = [
 			'id_customer',

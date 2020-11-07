@@ -270,6 +270,26 @@ class Models extends CI_Model {
 		return $kodejadi;
 	}
 
+	public function kode_invoice()
+	{
+		$this->db->SELECT('RIGHT(t_invoice.kode_invoice,4) as kode', FALSE);
+		$this->db->order_by('kode_invoice', 'DESC');
+		$this->db->limit(1);
+		$query = $this->db->get('t_invoice');
+		if ($query->num_rows() <> 0) {
+			// jika kodesudah ada
+			$data = $query->row();
+			$kode = intval($data->kode) + 1;
+		} else {
+			//jika kode belum ada
+			$kode = 1;
+		}
+		$kodemax = str_pad($kode, 4, "0", STR_PAD_LEFT);
+		$kodejadi = "INV" . $kodemax;
+
+		return $kodejadi;
+	}
+
 	function no_kuitansi()
 	{
 		$this->db->SELECT('RIGHT(t_kuitansi.no_kuitansi,4) as kode', FALSE);
@@ -290,7 +310,7 @@ class Models extends CI_Model {
 		return $kodejadi;
 	}
 
-	public function createKode() // digunakan untuk membuat kode member
+	public function id_barang() // digunakan untuk membuat kode member
 	{
 		$this->db->SELECT('RIGHT(t_barang.id_barang,4) as kode', FALSE);
 		$this->db->order_by('id_barang', 'DESC');
@@ -304,12 +324,29 @@ class Models extends CI_Model {
 			//jika kode belum ada
 			$kode = 1;
 		}
-
-		$kodemax = str_pad($kode, 1, "0", STR_PAD_LEFT);
-		$kodejadi = $kodemax;
-		// var_dump($kodejadi);die;
+		$kodemax = str_pad($kode, 4, "0", STR_PAD_LEFT);
+		$kodejadi = "BRG" . $kodemax;
 
 		return $kodejadi;
+
+		// $this->db->SELECT('RIGHT(t_barang.id_barang,4) as kode', FALSE);
+		// $this->db->order_by('id_barang', 'DESC');
+		// $this->db->limit(1);
+		// $query = $this->db->get('t_barang');
+		// if ($query->num_rows() <> 0) {
+		// 	// jika kodesudah ada
+		// 	$data = $query->row();
+		// 	$kode = intval($data->kode) + 1;
+		// } else {
+		// 	//jika kode belum ada
+		// 	$kode = 1;
+		// }
+
+		// $kodemax = str_pad($kode, 1, "0", STR_PAD_LEFT);
+		// $kodejadi = $kodemax;
+		// // var_dump($kodejadi);die;
+
+		// return $kodejadi;
 	}
 
 	function penyebut($nilai) {

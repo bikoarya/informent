@@ -3,13 +3,21 @@ window.setTimeout(function () {
 	$("#alert").alert('close');
 }, 2000);
 
+window.setTimeout(function () {
+	$("#pesanku").alert('close');
+}, 2400);
+
+
 // Validasi Huruf
 jQuery.validator.addMethod("lettersonly", function (value, element) {
 	return this.optional(element) || /^[a-z]+$/i.test(value);
 }, "Harap masukkan karakter/huruf");
 
-$('#showCart').load(site_url + 'Penawaran/load');
-$("#grandTotal").load(site_url + "Penawaran/grandTotal");
+	$('#showCart').load(site_url + 'Penawaran/load');
+	$("#grandTotal").load(site_url + "Penawaran/grandTotal");
+
+   $('#showCartInvoice').load(site_url + 'Invoice/load');
+   $("#totalInvoice").load(site_url + "Invoice/grandTotal");
 
 // Tambah Role
 $("#showRole").load(site_url + "Pengaturan/Role/viewRole");
@@ -969,112 +977,6 @@ $("#showKuitansi").on('click', '.hapusKuitansi', function () {
 	});
 });
 
-// Tambah Invoice
-$("#showInvoice").load(site_url + "Invoice/viewInvoice");
-$("#simpanInvoice").click(function () {
-	$("#formInvoice").validate({
-		rules: {
-			noInvoice: {
-				required: true,
-				number: true
-			},
-			tglInvoice: {
-				required: true
-			},
-			tujuanInvoice: {
-				required: true
-			},
-			desk: {
-				required: true
-			},
-			hargaInvoice: {
-				required: true,
-				number: true
-			},
-			qty: {
-				required: true,
-				number: true
-			},
-			pjInvoice: {
-				required: true
-			}
-
-		},
-		messages: {
-			noInvoice: {
-				required: "Masukkan nomor invoice!",
-				number: "Masukan angka!"
-			},
-			tglInvoice: {
-				required: "Masukkan tanggal!"
-			},
-			tujuanInvoice: {
-				required: "Masukkan tujuan!"
-			},
-			desk: {
-				required: "Masukkan deskripsi!"
-			},
-			hargaInvoice: {
-				required: "Masukkan harga!",
-				number: "Masukkan angka!"
-			},
-			qty: {
-				required: "Masukkan qty!",
-				number: "Masukkan angka!"
-			},
-			pjInvoice: {
-				required: "Masukkan penanggungjawab!"
-			}
-		},
-		errorElement: "span",
-		errorPlacement: function (error, element) {
-			error.addClass("invalid-feedback");
-			element.closest(".form-group").append(error);
-		},
-		highlight: function (element, errorClass, validClass) {
-			$(element).addClass("is-invalid");
-		},
-		unhighlight: function (element, errorClass, validClass) {
-			$(element).removeClass("is-invalid");
-		},
-		submitHandler: function (form) {
-			let noInvoice = $("#noInvoice").val();
-			let tglInvoice = $("#tglInvoice").val();
-			let tujuanInvoice = $("#tujuanInvoice").val();
-			let desk = $("#desk").val();
-			let hargaInvoice = $("#hargaInvoice").val();
-			let qty = $("#qty").val();
-			let pjInvoice = $("#pjInvoice").val();
-			$.ajax({
-				url: site_url + "Invoice/insert",
-				type: "POST",
-				data: {
-					noInvoice: noInvoice,
-					tglInvoice: tglInvoice,
-					tujuanInvoice: tujuanInvoice,
-					desk: desk,
-					hargaInvoice: hargaInvoice,
-					qty: qty,
-					pjInvoice: pjInvoice
-				},
-				success: function (data) {
-					$("#noInvoice").val("");
-					$("#tglInvoice").val("");
-					$("#tujuanInvoice").val("");
-					$("#desk").val("");
-					$("#hargaInvoice").val("");
-					$("#qty").val("");
-					$("#pjInvoice").val("");
-					$("#showInvoice").html(data);
-					$("#addInvoice").modal("hide");
-
-					window.location = "Invoice/Cetak";
-				}
-			});
-		}
-	});
-});
-
 // Tambah Satuan
 $("#showSatuan").load(site_url + "Master/Satuan/viewSatuan");
 $("#simpanSatuan").click(function () {
@@ -1337,7 +1239,6 @@ $("#simpanBarang").click(function () {
 					$("#namaBarang").val("");
 					$("#spesifikasi").val("");
 					$("#satuan").val("");
-					$("#bagian").val("");
 					$("#harga").val("");
 					$("#qty").val("");
 					$("#grandTotal").load(site_url + "Penawaran/grandTotal");
@@ -1399,6 +1300,49 @@ $("#showCart").on('click', '.hapusCart', function () {
 				success: function (data) {
 					$("#showCart").html(data);
 					$("#grandTotal").load(site_url + "Penawaran/grandTotal");
+
+					Swal.fire(
+						'Berhasil!',
+						'Data berhasil dihapus.',
+						'success'
+					)
+				}
+			});
+		}
+	});
+});
+
+// Delete Cart
+$("#showCartInvoice").on('click', '.deleteCart', function () {
+	var rowid = $(this).data("id_cart");
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-primary',
+			cancelButton: 'btn btn-info mr-3'
+		},
+		buttonsStyling: false
+	});
+
+	swalWithBootstrapButtons.fire({
+		title: 'Apakah Anda Yakin?',
+		text: "Menghapus Data",
+		icon: 'warning',
+		showCancelButton: true,
+		confirmButtonText: 'Ya, Hapus',
+		cancelButtonText: 'Batal',
+		reverseButtons: true
+	}).then((result) => {
+		if (result.value) {
+
+			$.ajax({
+				type: "POST",
+				url: site_url + "Invoice/Delete",
+				data: {
+					rowid: rowid
+				},
+				success: function (data) {
+					$("#showCartInvoice").html(data);
+					$("#totalInv").load(site_url + "Invoice/grandTotal");
 
 					Swal.fire(
 						'Berhasil!',
@@ -1904,7 +1848,6 @@ $("#editKuitansi").click(function () {
 });
 
 // Cetak Penawaran
-// $("#showRole").load(site_url + "Pengaturan/Role/viewRole");
 $("#cetakPenawaran").click(function () {
 	$("#formPenawaran").validate({
 		rules: {
@@ -1962,7 +1905,6 @@ $("#cetakPenawaran").click(function () {
 		},
 		submitHandler: function (form) {
 			let kodePenawaran = $("#kodePenawaran").val();
-			let id_barang = $("#id_barang").val();
 			let customerPenawaran = $("#customerPenawaran").val();
 			let noPenawaran = $("#noPenawaran").val();
 			let tglPenawaran = $("#tglPenawaran").val();
@@ -1974,7 +1916,6 @@ $("#cetakPenawaran").click(function () {
 				type: "POST",
 				data: {
 					kodePenawaran: kodePenawaran,
-					id_barang: id_barang,
 					customerPenawaran: customerPenawaran,
 					noPenawaran: noPenawaran,
 					tglPenawaran: tglPenawaran,
@@ -1989,8 +1930,258 @@ $("#cetakPenawaran").click(function () {
 					$("#periode").val("");
 					$("#hal").val("");
 					$("#pjPenawaran").val("");
-					$("#showRole").html(data);
-					$("#addRole").modal("hide");
+				}
+			});
+		}
+	});
+});
+
+var rph = document.getElementById('hargaInv');
+rph.addEventListener('keyup', function (e) {
+	// tambahkan 'Rp.' pada saat form di ketik
+	// gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+	rph.value = formatRupiah(this.value, 'Rp. ');
+});
+
+/* Fungsi formatRupiah */
+function formatRupiah(angka, prefix) {
+	var number_string = angka.replace(/[^,\d]/g, '').toString(),
+		split = number_string.split(','),
+		sisa = split[0].length % 3,
+		rph = split[0].substr(0, sisa),
+		ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+	// tambahkan titik jika yang di input sudah menjadi angka ribuan
+	if (ribuan) {
+		separator = sisa ? '.' : '';
+		rph += separator + ribuan.join('.');
+	}
+
+	rph = split[1] != undefined ? rph + ',' + split[1] : rph;
+	return prefix == undefined ? rph : (rph ? 'Rp. ' + rph : '');
+}
+
+$("#simpanBrg").click(function () {
+	$("#formBrg").validate({
+		rules: {
+			namaBrg: {
+				required: true
+			},
+			deskripsi: {
+				required: true
+			},
+			satuanInv: {
+				required: true
+			},
+			hargaInv: {
+				required: true
+			},
+			qtyInv: {
+				required: true
+			}
+		},
+		messages: {
+			namaBrg: {
+				required: "Masukkan nama barang!"
+			},
+			deskripsi: {
+				required: "Masukkan deskripsi!"
+			},
+			satuanInv: {
+				required: "Masukkan satuan!"
+			},
+			hargaInv: {
+				required: "Masukkan harga!"
+			},
+			qtyInv: {
+				required: "Masukkan jumlah!"
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let kode_invoice = $("#kode_invoice").val();
+			let namaBrg = $("#namaBrg").val();
+			let deskripsi = $("#deskripsi").val();
+			let satuanInv = $("#satuanInv").val();
+			let hargaInv = $("#hargaInv").val();
+			let qtyInv = $("#qtyInv").val();
+			$.ajax({
+				url: site_url + "Invoice/insert",
+				type: "POST",
+				data: {
+					kode_invoice: kode_invoice,
+					namaBrg: namaBrg,
+					deskripsi: deskripsi,
+					satuanInv: satuanInv,
+					hargaInv: hargaInv,
+					qtyInv: qtyInv
+				},
+				success: function (data) {
+					$("#namaBrg").val("");
+					$("#deskripsi").val("");
+					$("#satuanInv").val("");
+					$("#hargaInv").val("");
+					$("#qtyInv").val("");
+					$("#totalInv").load(site_url + "Invoice/grandTotal");
+					$("#showCartInvoice").html(data);
+					$("#addInvoice").modal("hide");
+					
+					toastr.options = {
+						"closeButton": true,
+						"debug": false,
+						"newestOnTop": false,
+						"progressBar": true,
+						"positionClass": "toast-top-right",
+						"preventDuplicates": false,
+						"onclick": null,
+						"showDuration": "300",
+						"hideDuration": "1000",
+						"timeOut": "2000",
+						"extendedTimeOut": "1000",
+						"showEasing": "swing",
+						"hideEasing": "linear",
+						"showMethod": "fadeIn",
+						"hideMethod": "fadeOut"
+					}
+					toastr["success"]("Data berhasil ditambahkan!")
+				}
+			});
+		}
+	});
+});
+
+$(document).on('click', '.addBrg', function () {
+	let kode_invoice = $("#kode_invoice").val();
+	let id_barang = $(this).data('id_brg');
+	let nama_barang = $(this).data('nama_brg');
+	let spesifikasi = $(this).data('deskripsi');
+	let satuan = $(this).data('stn');
+	let harga = $(this).data('hrg');
+
+	$("#id_brg").val(id_barang);
+
+	$.ajax({
+		url: base_url + 'Invoice/Search',
+		type: 'POST',
+		data: {
+			kode_invoice: kode_invoice,
+			id_barang: id_barang,
+			nama_barang: nama_barang,
+			spesifikasi: spesifikasi,
+			satuan: satuan,
+			harga: harga
+		},
+		success: function (data) {
+			$('#showCartInvoice').html(data);
+			$("#totalInv").load(site_url + "Invoice/grandTotal");
+			$("#cariBrg").modal('hide');
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": true,
+				"positionClass": "toast-top-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": "300",
+				"hideDuration": "1000",
+				"timeOut": "2000",
+				"extendedTimeOut": "1000",
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			}
+			toastr["success"]("Data berhasil ditambahkan!")
+		}
+	});
+});
+
+$("#cetakInvoice").click(function () {
+	$("#formInvoice").validate({
+		rules: {
+			noInvoice: {
+				required: true
+			},
+			custInvoice: {
+				required: true
+			},
+			tglInvoice: {
+				required: true
+			},
+			bank: {
+				required: true,
+				number: true
+			},
+			pjInvoice: {
+				required: true
+			}
+		},
+		messages: {
+			noInvoice: {
+				required: ""
+			},
+			custInvoice: {
+				required: ""
+			},
+			tglInvoice: {
+				required: ""
+			},
+			bank: {
+				required: ""
+			},
+			pjInvoice: {
+				required: ""
+			}
+		},
+		errorElement: "span",
+		errorPlacement: function (error, element) {
+			error.addClass("invalid-feedback");
+			element.closest(".form-group").append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass("is-invalid");
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass("is-invalid");
+		},
+		submitHandler: function (form) {
+			let kode_invoice = $("#kode_invoice").val();
+			let id_brg = $("#id_brg").val();
+			let noInvoice = $("#noInvoice").val();
+			let customer = $("#custInvoice").val();
+			let tglInvoice = $("#tglInvoice").val();
+			let bank = $("#bankInvoice").val();
+			let pj = $("#pjInvoice").val();
+			$.ajax({
+				url: site_url + "Invoice/Simpan",
+				type: "POST",
+				data: {
+					kode_invoice: kode_invoice,
+					id_brg: id_brg,
+					noInvoice: noInvoice,
+					customer: customer,
+					tglInvoice: tglInvoice,
+					bank: bank,
+					pj: pj
+				},
+				success: function (data) {
+					window.location = 'Invoice/Cetak/' + kode_invoice;
+					$("#noInvoice").val("");
+					$("#custInvoice").val("").trigger("change");;
+					$("#tglInvoice").val("");
+					$("#bankInvoice").val("").trigger("change");;
+					$("#pjInvoice").val("").trigger("change");;
 				}
 			});
 		}
