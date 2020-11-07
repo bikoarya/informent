@@ -12,7 +12,7 @@
         <div class="form-group row">
               <label for="noInvoice" class="col-md-4 col-form-label">No. Invoice &emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;: </label>
               <div class="col-md-8">
-                <input type="text" class="form-control" autocomplete="off" name="noInvoice" id="noInvoice" placeholder="Masukan nomor invoice" style="width: 270px">
+                <input type="text" class="form-control" autocomplete="off" name="noInvoice" id="noInvoice" placeholder="Masukan nomor invoice" value="<?= $this->session->userdata('no_invoice'); ?>" style="width: 270px">
               </div>
             </div>
             <div class="form-group row">
@@ -21,7 +21,11 @@
               <select class="form-control custInvoice" name="custInvoice" id="custInvoice" autocomplete="off" style="width: 270px;">
  					      <option value=""></option>
                  <?php foreach ($customer as $cust) : ?>
- 							<option value="<?= $cust['id_customer']; ?>"><?= $cust['nama_customer']; ?></option>
+                  <?php if ($this->session->userdata('id_customer') == $cust['id_customer']) { ?>
+               <option value="<?= $cust['id_customer']; ?>" selected><?= $cust['nama_customer']; ?></option>
+               <?php }else { ?>
+                <option value="<?= $cust['id_customer']; ?>"><?= $cust['nama_customer']; ?></option>
+               <?php } ?>
  						<?php endforeach; ?>
  				      </select>
               </div>
@@ -31,7 +35,7 @@
         <div class="form-group row">
               <label for="tglInvoice" class="col-md-5 col-form-label">Tanggal &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </label>
               <div class="col-md-7">
-                <input type="text" class="form-control" data-date-format="dd M yyyy" autocomplete="off" name="tglInvoice" id="tglInvoice" placeholder="Masukan tanggal" style="width: 200px">
+              <input type="text" class="form-control" data-date-format="dd M yyyy" autocomplete="off" name="tglInvoice" id="tglInvoice" placeholder="Masukan tanggal" style="width: 200px" value="<?= $this->session->userdata('tanggal'); ?>">
               </div>
             </div>
             <div class="form-group row">
@@ -40,7 +44,11 @@
               <select class="form-control bank" name="bankInvoice" id="bankInvoice" autocomplete="off" style="width: 270px;">
  					      <option value=""></option>
                  <?php foreach ($bank as $bnk) : ?>
- 							<option value="<?= $bnk['id_rekening']; ?>"><?= $bnk['nama_bank']; ?></option>
+                  <?php if ($this->session->userdata('id_rekening') == $bnk['id_rekening']) { ?>
+               <option value="<?= $bnk['id_rekening']; ?>" selected><?= $bnk['nama_bank']; ?></option>
+               <?php }else { ?>
+                <option value="<?= $bnk['id_rekening']; ?>"><?= $bnk['nama_bank']; ?></option>
+               <?php } ?>
  						<?php endforeach; ?>
  				      </select>
               </div>
@@ -51,7 +59,11 @@
               <select class="form-control pjInvoice" name="pjInvoice" id="pjInvoice" autocomplete="off" style="width: 270px;">
  					      <option value=""></option>
                  <?php foreach ($pjs as $pj) : ?>
- 							<option value="<?= $pj['id_pj']; ?>"><?= $pj['nama_pj']; ?></option>
+                  <?php if ($this->session->userdata('id_pj') == $pj['id_pj']) { ?>
+               <option value="<?= $pj['id_pj']; ?>" selected><?= $pj['nama_pj']; ?></option>
+               <?php }else { ?>
+                <option value="<?= $pj['id_pj']; ?>"><?= $pj['nama_pj']; ?></option>
+               <?php } ?>
  						<?php endforeach; ?>
  				      </select>
               </div>

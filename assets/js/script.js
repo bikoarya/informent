@@ -1925,11 +1925,12 @@ $("#cetakPenawaran").click(function () {
 				},
 				success: function (data) {
 					window.location = 'Penawaran/Cetak/' + kodePenawaran;
-					$("#customerPenawaran").val("");
+					$("#customerPenawaran").val("").trigger("change");
 					$("#noPenawaran").val("");
+					$("#tglPenawaran").val("");
 					$("#periode").val("");
 					$("#hal").val("");
-					$("#pjPenawaran").val("");
+					$("#pjPenawaran").val("").trigger("change");
 				}
 			});
 		}
@@ -2009,6 +2010,11 @@ $("#simpanBrg").click(function () {
 			$(element).removeClass("is-invalid");
 		},
 		submitHandler: function (form) {
+			let noInvoice = $("#noInvoice").val();
+			let custInvoice = $("#custInvoice").val();
+			let tanggalIn = $("#tglInvoice").val();
+			let bankInvoice = $("#bankInvoice").val();
+			let pjInvoice = $("#pjInvoice").val();
 			let kode_invoice = $("#kode_invoice").val();
 			let namaBrg = $("#namaBrg").val();
 			let deskripsi = $("#deskripsi").val();
@@ -2019,6 +2025,11 @@ $("#simpanBrg").click(function () {
 				url: site_url + "Invoice/insert",
 				type: "POST",
 				data: {
+					noInvoice: noInvoice,
+					custInvoice: custInvoice,
+					tanggalIn: tanggalIn,
+					bankInvoice: bankInvoice,
+					pjInvoice: pjInvoice,
 					kode_invoice: kode_invoice,
 					namaBrg: namaBrg,
 					deskripsi: deskripsi,
@@ -2061,6 +2072,11 @@ $("#simpanBrg").click(function () {
 });
 
 $(document).on('click', '.addBrg', function () {
+	let noInvoice = $("#noInvoice").val();
+	let custInvoice = $("#custInvoice").val();
+	let tanggal = $("#tglInvoice").val();
+	let bankInvoice = $("#bankInvoice").val();
+	let pjInvoice = $("#pjInvoice").val();
 	let kode_invoice = $("#kode_invoice").val();
 	let id_barang = $(this).data('id_brg');
 	let nama_barang = $(this).data('nama_brg');
@@ -2074,6 +2090,11 @@ $(document).on('click', '.addBrg', function () {
 		url: base_url + 'Invoice/Search',
 		type: 'POST',
 		data: {
+			noInvoice: noInvoice,
+			custInvoice: custInvoice,
+			tanggal: tanggal,
+			bankInvoice: bankInvoice,
+			pjInvoice: pjInvoice,
 			kode_invoice: kode_invoice,
 			id_barang: id_barang,
 			nama_barang: nama_barang,

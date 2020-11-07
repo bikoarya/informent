@@ -25,6 +25,11 @@ class Invoice extends CI_Controller {
 
 	public function insert() 
 	{
+		$noInvoice 	= htmlspecialchars($this->input->post('noInvoice'));
+		$custInvoice 	= htmlspecialchars($this->input->post('custInvoice'));
+		$tanggalIn 	= htmlspecialchars($this->input->post('tanggalIn'));
+		$bankInvoice 	= htmlspecialchars($this->input->post('bankInvoice'));
+		$pjInvoice 	= htmlspecialchars($this->input->post('pjInvoice'));
 		$namaBarang 	= htmlspecialchars($this->input->post('namaBrg'));
 		$deskripsi	 	= htmlspecialchars($this->input->post('deskripsi'));
 		$satuan 		= htmlspecialchars($this->input->post('satuanInv'));
@@ -45,7 +50,12 @@ class Invoice extends CI_Controller {
 		$kode_invoice = $this->model->kode_invoice();
 
 		$session = [
-			'kode_invoice' => $kode_invoice
+			'kode_invoice' => $kode_invoice,
+			'no_invoice' => $noInvoice,
+			'id_customer' => $custInvoice,
+			'tanggal' => $tanggalIn,
+			'id_rekening' => $bankInvoice,
+			'id_pj' => $pjInvoice
 		];
 		$this->session->set_userdata($session);
 
@@ -107,6 +117,11 @@ class Invoice extends CI_Controller {
 
 	public function Search()
 	{
+		$noInv	 		= htmlspecialchars($this->input->post('noInvoice'));
+		$custInv		= htmlspecialchars($this->input->post('custInvoice'));
+		$tanggal	 	= htmlspecialchars($this->input->post('tanggal'));
+		$bankInv	 	= htmlspecialchars($this->input->post('bankInvoice'));
+		$pjInv	 		= htmlspecialchars($this->input->post('pjInvoice'));
 		$kode_invoice	= htmlspecialchars($this->input->post('kode_invoice'));
 		
 		$id_barang 		= htmlspecialchars($this->input->post('id_barang'));
@@ -127,8 +142,14 @@ class Invoice extends CI_Controller {
 		];
 
 		$session = [
-			'kode_invoice' => $kode_invoice
+			'kode_invoice' => $kode_invoice,
+			'no_invoice' => $noInv,
+			'id_customer' => $custInv,
+			'tanggal' => $tanggal,
+			'id_rekening' => $bankInv,
+			'id_pj' => $pjInv
 		];
+
 		$this->session->set_userdata($session);
 		$this->cart->insert($cart);
 		echo $this->show_cart();
@@ -147,6 +168,16 @@ class Invoice extends CI_Controller {
 				redirect('Invoice');
 		}
 		$this->cart->destroy();
+
+		$unset = [
+			'no_invoice',
+			'id_customer',
+			'tanggal',
+			'id_rekening',
+			'id_pj'
+		];
+		
+		$this->session->unset_userdata($unset);
 		$mpdf = new \Mpdf\Mpdf();
 		$mpdf->SetTitle('Cetak Penawaran');
 		$join = [

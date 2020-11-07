@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2020 at 09:28 PM
+-- Generation Time: Nov 07, 2020 at 09:18 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -52,12 +52,12 @@ INSERT INTO `t_akun` (`id_akun`, `nama_lengkap`, `username`, `password`, `id_rol
 --
 
 CREATE TABLE `t_barang` (
-  `id_barang` int(11) NOT NULL,
-  `nama_barang` varchar(100) NOT NULL,
+  `id_barang` varchar(20) NOT NULL,
+  `nama_barang` varchar(50) NOT NULL,
   `spesifikasi` text NOT NULL,
   `nama_satuan` varchar(50) NOT NULL,
   `qty` int(20) NOT NULL,
-  `harga` int(50) NOT NULL
+  `harga` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -65,11 +65,9 @@ CREATE TABLE `t_barang` (
 --
 
 INSERT INTO `t_barang` (`id_barang`, `nama_barang`, `spesifikasi`, `nama_satuan`, `qty`, `harga`) VALUES
-(32, 'Sempak kasogi', 'Autentik', 'UNIT', 2, 75000),
-(33, 'Sepatu Ardiles', 'Warna hitam, ukuran 40', 'UNIT', 1, 250000),
-(35, 'Kaos Nevada', 'Cotton, size L', 'UNIT', 1, 150000),
-(42, 'Laptop ASUS', 'Core i7, SSD 512 GB PCIe NVMe, AMD Ryzen 7-3750H, 144 Hz', 'UNIT', 1, 15000000),
-(43, 'sdfdfdfdfdfdfdf', 'dfdfdfdfd', 'LEMBAR', 2, 100000);
+('BRG0001', 'Laptop ASUS', 'Core i7, SSD 512GB, Layar 144Hz', 'UNIT', 2, '12500000'),
+('BRG0002', 'Mie Sukses', 'Isi 2, rasa ayam kecap', 'UNIT', 2, '3500'),
+('BRG0003', 'Indomie', 'Jumbo', 'UNIT', 3, '3500');
 
 -- --------------------------------------------------------
 
@@ -91,7 +89,35 @@ CREATE TABLE `t_customer` (
 INSERT INTO `t_customer` (`id_customer`, `nama_customer`, `alamat`, `no_hp`) VALUES
 (1, 'Anya Geraldine', 'Malang, Indonesia', '081259464280'),
 (2, 'Chelsea Islan', 'Kemang, Jakarta Selatan', '081300750875'),
-(3, 'Pevita Pearce', 'Menteng, Jakarta Pusat', '081550785365');
+(3, 'Pevita Pearce', 'Menteng, Jakarta Pusat', '081550785365'),
+(16, 'Felicia Hadinata', 'Jl. Semeru Selatan, Malang', '089988046243');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `t_invoice`
+--
+
+CREATE TABLE `t_invoice` (
+  `id_invoice` int(11) NOT NULL,
+  `kode_invoice` varchar(50) NOT NULL,
+  `no_invoice` varchar(50) NOT NULL,
+  `tanggal` date NOT NULL,
+  `id_customer` int(11) NOT NULL,
+  `id_rekening` int(11) NOT NULL,
+  `id_barang` varchar(20) NOT NULL,
+  `id_pj` int(11) NOT NULL,
+  `qty_invoice` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `t_invoice`
+--
+
+INSERT INTO `t_invoice` (`id_invoice`, `kode_invoice`, `no_invoice`, `tanggal`, `id_customer`, `id_rekening`, `id_barang`, `id_pj`, `qty_invoice`) VALUES
+(8, 'INV0001', '7888', '2020-11-10', 16, 3, 'BRG0001', 4, 1),
+(20, 'INV0002', '9890', '2020-11-10', 1, 1, 'BRG0002', 2, 1),
+(21, 'INV0002', '9890', '2020-11-10', 1, 1, 'BRG0001', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -115,9 +141,8 @@ CREATE TABLE `t_kuitansi` (
 --
 
 INSERT INTO `t_kuitansi` (`id_kuitansi`, `no_kuitansi`, `tanggal_kuitansi`, `jumlah_uang`, `guna_pembayaran`, `terima_dari`, `id_pj`, `kode_kuitansi`) VALUES
-(97, '0001', '2020-10-13', '5000000', 'asknfals', 'asmf', 1, 'KUI0001'),
-(98, '0002', '2020-10-14', '3000000', 'klansf', 'klnasfss', 4, 'KUI0002'),
-(99, '0003', '2020-10-20', '300000000', 'ljasnf', 'ljnamsf', 2, 'KUI0003');
+(104, '0001', '2020-10-31', '12500000', 'Pembelian komputer', 'CV. Informent', 4, 'KUI0001'),
+(105, '0002', '2020-11-19', '5000000', 'Pembelian laptop', 'CV Informent', 1, 'KUI0002');
 
 -- --------------------------------------------------------
 
@@ -148,7 +173,7 @@ INSERT INTO `t_penanggungjawab` (`id_pj`, `nama_pj`) VALUES
 CREATE TABLE `t_penawaran` (
   `id_penawaran` int(11) NOT NULL,
   `kode_penawaran` varchar(50) NOT NULL,
-  `id_barang` int(11) NOT NULL,
+  `id_barang` varchar(20) NOT NULL,
   `qty_penawaran` int(50) NOT NULL,
   `id_customer` int(11) NOT NULL,
   `id_pj` int(11) NOT NULL,
@@ -157,19 +182,6 @@ CREATE TABLE `t_penawaran` (
   `periode` int(20) NOT NULL,
   `hal` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `t_penawaran`
---
-
-INSERT INTO `t_penawaran` (`id_penawaran`, `kode_penawaran`, `id_barang`, `qty_penawaran`, `id_customer`, `id_pj`, `no_penawaran`, `date`, `periode`, `hal`) VALUES
-(69, 'PWR0001', 32, 1, 3, 4, '112/INF/XII/2020', '2020-10-24', 15, 'Penawaran Pengadaan Barang'),
-(70, 'PWR0001', 35, 2, 3, 4, '112/INF/XII/2020', '2020-10-24', 15, 'Penawaran Pengadaan Barang'),
-(71, 'PWR0001', 33, 1, 3, 4, '112/INF/XII/2020', '2020-10-24', 15, 'Penawaran Pengadaan Barang'),
-(72, 'PWR0002', 32, 1, 1, 1, '567', '2020-10-21', 10, 'asf'),
-(73, 'PWR0002', 33, 2, 1, 1, '567', '2020-10-21', 10, 'asf'),
-(74, 'PWR0002', 35, 1, 1, 1, '567', '2020-10-21', 10, 'asf'),
-(75, 'PWR0003', 43, 2, 1, 2, '44', '2020-10-24', 11, 'xzds');
 
 -- --------------------------------------------------------
 
@@ -189,9 +201,9 @@ CREATE TABLE `t_rekening` (
 --
 
 INSERT INTO `t_rekening` (`id_rekening`, `nama_bank`, `no_rekening`, `atas_nama`) VALUES
-(1, 'BCA', '1234567890', 'Biko Arya'),
-(2, 'BRI', '5871530778365', 'Pevita Pearce'),
-(3, 'BTN', '906307466712985', 'Rafa Athalla');
+(1, 'BCA', '1234567890', 'CV Informent'),
+(2, 'BRI', '5871530778365', 'CV Informent'),
+(3, 'BTN', '906307466712985', 'CV Informent');
 
 -- --------------------------------------------------------
 
@@ -256,6 +268,12 @@ ALTER TABLE `t_customer`
   ADD PRIMARY KEY (`id_customer`);
 
 --
+-- Indexes for table `t_invoice`
+--
+ALTER TABLE `t_invoice`
+  ADD PRIMARY KEY (`id_invoice`);
+
+--
 -- Indexes for table `t_kuitansi`
 --
 ALTER TABLE `t_kuitansi`
@@ -302,22 +320,22 @@ ALTER TABLE `t_akun`
   MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `t_barang`
---
-ALTER TABLE `t_barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
-
---
 -- AUTO_INCREMENT for table `t_customer`
 --
 ALTER TABLE `t_customer`
-  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `t_invoice`
+--
+ALTER TABLE `t_invoice`
+  MODIFY `id_invoice` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `t_kuitansi`
 --
 ALTER TABLE `t_kuitansi`
-  MODIFY `id_kuitansi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id_kuitansi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
 
 --
 -- AUTO_INCREMENT for table `t_penanggungjawab`
@@ -329,7 +347,7 @@ ALTER TABLE `t_penanggungjawab`
 -- AUTO_INCREMENT for table `t_penawaran`
 --
 ALTER TABLE `t_penawaran`
-  MODIFY `id_penawaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id_penawaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `t_rekening`

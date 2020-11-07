@@ -30,7 +30,8 @@ class Kuitansi extends CI_Controller {
 		];
 		$data['value'] 	= $this->model->joins('t_kuitansi', $where, $join)->row_array();
 		$data 			= $this->load->view('Kuitansi/Cetak', $data, TRUE);
-		$mpdf 			= new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [210, 115]]);
+		// ['mode' => 'utf-8', 'format' => [210, 115]]
+		$mpdf 			= new \Mpdf\Mpdf();
 		$mpdf->WriteHTML($data);
 		$mpdf->Output('Kuitansi.pdf', 'I');
 
